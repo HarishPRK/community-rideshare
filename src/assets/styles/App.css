@@ -1,0 +1,764 @@
+/* Enhanced App.css for Community RideShare */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Root Variables */
+:root {
+  --primary-color: #1a91ff;
+  --primary-dark: #0066cc;
+  --primary-light: #e0f0ff;
+  --secondary-color: #34c759;
+  --secondary-dark: #28a745;
+  --accent-color: #ff9500;
+  --dark-color: #1e293b;
+  --light-color: #f8fafc;
+  --gray-color: #64748b;
+  --gray-light: #e2e8f0;
+  --danger-color: #ff3b30;
+  --warning-color: #ffcc00;
+  --info-color: #5ac8fa;
+  --success-color: #34c759;
+  
+  --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --box-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  --border-radius: 0.5rem;
+  --border-radius-sm: 0.375rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  
+  --transition: all 0.3s ease;
+}
+
+/* General Styles */
+body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--dark-color);
+  background-color: #fbfbfd;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.display-4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin-bottom: 1.5rem;
+}
+
+.lead {
+  font-size: 1.125rem;
+  font-weight: 400;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced Navbar */
+.navbar {
+  padding: 1rem 0;
+  transition: var(--transition);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition);
+  margin: 0 0.25rem;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #fff;
+}
+
+/* Enhanced Buttons */
+.btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--box-shadow-sm);
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-success {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: var(--secondary-dark);
+}
+
+.btn-outline-light {
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  color: white;
+}
+
+.btn-outline-light:hover {
+  background-color: white;
+  color: var(--primary-color);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-lg {
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: var(--border-radius-lg);
+  transition: var(--transition);
+  overflow: hidden;
+  box-shadow: var(--box-shadow-sm);
+}
+
+.card:hover {
+  box-shadow: var(--box-shadow);
+  transform: translateY(-5px);
+}
+
+.card-body {
+  padding: 1.75rem;
+}
+
+/* Form elements */
+.form-control {
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--gray-light);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(26, 145, 255, 0.15);
+}
+
+.input-group-text {
+  background-color: var(--gray-light);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--border-radius);
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  min-height: 600px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6, #60a5fa);
+  color: white;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-section .card {
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--box-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Features Section */
+.features-section {
+  padding: 6rem 0;
+}
+
+.features-section .card {
+  border-radius: var(--border-radius-lg);
+  height: 100%;
+  border: none;
+  box-shadow: var(--box-shadow-sm);
+  transition: var(--transition);
+}
+
+.features-section .card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--box-shadow);
+}
+
+.features-section .card-body {
+  padding: 2.5rem 2rem;
+}
+
+.features-section .icon-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  background: var(--primary-light);
+  color: var(--primary-color);
+}
+
+/* How It Works Section */
+.how-it-works-section {
+  background-color: var(--light-color);
+  padding: 6rem 0;
+  position: relative;
+}
+
+.how-it-works-section .rounded-circle {
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+.how-it-works-section .col:hover .rounded-circle {
+  transform: scale(1.1);
+}
+
+/* Testimonial Section */
+.testimonials-section {
+  padding: 6rem 0;
+  background-color: white;
+}
+
+.testimonial-carousel {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+}
+
+.testimonial-carousel .carousel-item {
+  padding: 2rem;
+}
+
+.testimonial-carousel .rounded-circle {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 5px solid var(--primary-light);
+  box-shadow: var(--box-shadow);
+}
+
+.testimonial-carousel blockquote {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.testimonial-carousel .blockquote-footer {
+  font-size: 1rem;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, #2563eb, #3b82f6, #60a5fa);
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.cta-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Footer */
+footer {
+  background-color: var(--dark-color);
+  color: white;
+  padding: 4rem 0 2rem;
+}
+
+footer h5 {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+footer a {
+  color: rgba(255, 255, 255, 0.7);
+  transition: var(--transition);
+}
+
+footer a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+footer .social-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+footer .social-icons a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+footer .social-icons a:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-3px);
+}
+
+/* Badges */
+.badge {
+  padding: 0.5em 0.75em;
+  font-weight: 500;
+  border-radius: 30px;
+}
+
+/* Search input */
+.search-input {
+  border-radius: var(--border-radius);
+  border: none;
+  padding: 0.75rem 1rem;
+  box-shadow: var(--box-shadow-sm);
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  box-shadow: var(--box-shadow);
+}
+
+/* Animation for hover effects */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Loading screen */
+.loading-screen {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.loading-screen .spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Profile Section */
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow: var(--box-shadow);
+}
+
+/* Ride Card */
+.ride-card {
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--box-shadow-sm);
+  transition: var(--transition);
+}
+
+.ride-card:hover {
+  box-shadow: var(--box-shadow);
+  transform: translateY(-5px);
+}
+
+.ride-card .card-header {
+  background-color: var(--primary-light);
+  border-bottom: none;
+  padding: 1.25rem;
+}
+
+.ride-card .card-footer {
+  background-color: white;
+  border-top: 1px solid var(--gray-light);
+  padding: 1.25rem;
+}
+
+/* Map Container */
+.map-container {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+/* Utilities */
+.shadow-sm {
+  box-shadow: var(--box-shadow-sm) !important;
+}
+
+.shadow {
+  box-shadow: var(--box-shadow) !important;
+}
+
+.shadow-lg {
+  box-shadow: var(--box-shadow-lg) !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.rounded-xl {
+  border-radius: var(--border-radius-xl) !important;
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .hero-section {
+    text-align: center;
+  }
+  
+  .features-section {
+    padding: 4rem 0;
+  }
+  
+  .how-it-works-section {
+    padding: 4rem 0;
+  }
+  
+  .testimonials-section {
+    padding: 4rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 500px;
+  }
+  
+  .navbar {
+    padding: 0.75rem 0;
+  }
+  
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+  
+  .display-4 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    min-height: 450px;
+  }
+  
+  .display-4 {
+    font-size: 2rem;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Layout Improvements for Community RideShare */
+
+/* Ensure the app container takes full width */
+.app-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Improve the hero section to take full viewport width */
+.hero-section {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  min-height: 80vh; /* Taller hero section */
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1e88e5, #1976d2, #1565c0);
+  padding: 0; /* Remove default padding */
+}
+
+/* Improve hero content layout */
+.hero-section .container {
+  max-width: 1400px; /* Wider container for better spacing */
+  padding: 3rem 2rem;
+}
+
+.hero-section .row {
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Enhance the title and description spacing */
+.hero-section h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.hero-section .lead {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  max-width: 90%;
+}
+
+/* Improve the search card */
+.hero-section .card {
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: none;
+  padding: 1.5rem;
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-section .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section .card h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* Better form spacing */
+.hero-section .card .form-control {
+  height: 56px;
+  font-size: 1.1rem;
+  padding-left: 1rem;
+}
+
+.hero-section .card .input-group {
+  margin-bottom: 1.5rem;
+}
+
+.hero-section .card .btn {
+  height: 56px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Add space below the hero section */
+.features-section {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+/* Make the "Why Choose" section more prominent */
+.features-section h2.display-5 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.features-section .lead {
+  font-size: 1.25rem;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+/* Feature cards improvements */
+.features-section .card {
+  padding: 2rem;
+  border-radius: 16px;
+  height: 100%;
+}
+
+/* Fix container width constraints */
+@media (min-width: 1400px) {
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1320px;
+  }
+}
+
+/* Better responsive behavior */
+@media (max-width: 992px) {
+  .hero-section {
+    min-height: auto;
+    padding: 6rem 0;
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-section .card {
+    margin-top: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-section .lead {
+    font-size: 1.1rem;
+  }
+  
+  .features-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  
+  .features-section h2.display-5 {
+    font-size: 2.25rem;
+  }
+}
+
+/* Add some animation to the hero section */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-section h1,
+.hero-section .lead,
+.hero-section .d-flex {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.hero-section .lead {
+  animation-delay: 0.2s;
+}
+
+.hero-section .d-flex {
+  animation-delay: 0.4s;
+}
+
+.hero-section .card {
+  animation: fadeInUp 0.8s ease-out 0.6s forwards;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+/* Update the Navbar to be more prominent */
+.navbar {
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #1565c0, #1976d2) !important;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* "Why Choose" section spacing */
+.section-header {
+  margin-bottom: 5rem;
+}
+
