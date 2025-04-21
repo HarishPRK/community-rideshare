@@ -60,15 +60,13 @@ const startServer = async () => {
     await syncDatabase(force);
     console.log('Database sync completed.');
     
-    // Start server - Vercel might ignore this, but it's needed for local dev
-    // And the DB sync needs to happen before the module export completes for Vercel
-    // We won't call app.listen() here as Vercel handles invoking the exported app
-    // app.listen(PORT, () => {
-    //   console.log(`Server running on port ${PORT}`);
-    //   console.log(`API available at http://localhost:${PORT}/api`);
-    //   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    // });
-    console.log('Server setup complete (excluding app.listen).');
+    // Start server - explicit listen for Render.com to detect the port
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+      console.log(`API available at http://localhost:${PORT}/api`);
+      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+    console.log('Server startup complete.');
   } catch (error) {
     console.error('Failed during server startup sequence:', error);
     process.exit(1); // Consider removing this for better error handling in production

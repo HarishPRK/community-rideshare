@@ -3,12 +3,12 @@ const { sequelize } = require('../config/database');
 
 const RideRequest = sequelize.define('RideRequest', {
   id: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     primaryKey: true,
     allowNull: false
   },
   rideId: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: 'rides',
@@ -16,7 +16,7 @@ const RideRequest = sequelize.define('RideRequest', {
     }
   },
   passengerId: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: 'users',
