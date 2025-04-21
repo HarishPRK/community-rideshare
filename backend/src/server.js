@@ -1,3 +1,4 @@
+console.log('--- backend/src/server.js loaded ---'); // Vercel diagnostic log
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
