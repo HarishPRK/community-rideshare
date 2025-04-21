@@ -54,8 +54,8 @@ const startServer = async () => {
     }
     
     // Sync database models (set to true to force recreate tables - use carefully)
-    // In production (NODE_ENV=production), force should be false
-    const force = process.env.NODE_ENV === 'development' && process.env.DB_SYNC_FORCE === 'true'; 
+    // Allow force mode in production only when explicitly enabled with DB_SYNC_FORCE
+    const force = process.env.DB_SYNC_FORCE === 'true';
     console.log(`Database sync starting (force: ${force})...`);
     await syncDatabase(force);
     console.log('Database sync completed.');
