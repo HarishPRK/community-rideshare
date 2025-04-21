@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded body
 app.use('/uploads', express.static(path.join(__dirname, '../../uploads'))); 
 
 // Set up API routes - all of our routes will be prefixed with /api
-app.use('/api', routes);
+// app.use('/api', routes); // Routes will be handled by individual files in /api directory
 
 // Error handling middleware - should be last
 app.use(errorHandler);
@@ -75,8 +75,8 @@ process.on('unhandledRejection', (err) => {
   // Don't crash the server, just log the error
 });
 
-// Start the server 
-startServer();
+// // Start the server --- Handled by Vercel now ---
+// startServer();
 
-// Export the Express app for Vercel (still useful even if not strictly serverless now)
+// Export the configured Express app for Vercel function handlers
 module.exports = app;
