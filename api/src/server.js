@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded body
 app.use('/uploads', express.static(path.join(__dirname, '../../uploads'))); 
 
 // Set up API routes - all of our routes will be prefixed with /api
-// app.use('/api', routes); // Routes will be handled by individual files in /api directory
+app.use('/api', routes); // Use the main router index
 
 // Error handling middleware - should be last
 app.use(errorHandler);
