@@ -2,15 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/server.js",
+      "src": "package.json", 
       "use": "@vercel/node",
-      "config": { "installCommand": "npm install" } 
+      "config": { 
+        "includeFiles": ["src/**", "uploads/**"], 
+        "installCommand": "npm install" 
+      } 
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/src/server.js"
+      "src": "/(.*)", 
+      "dest": "/src/server.js" 
     }
   ]
 }
