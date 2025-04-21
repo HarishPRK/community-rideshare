@@ -50,22 +50,28 @@ const startServer = async () => {
     } catch (error) {
       console.error('Unable to connect to the database:', error);
       console.error('Failed to connect to the database. Server will not start.');
-      process.exit(1); 
+      process.exit(1); // Consider removing this for better error handling in production
     }
     
     // Sync database models (set to true to force recreate tables - use carefully)
-    const force = process.env.NODE_ENV === 'development' && process.env.DB_SYNC_FORCE === 'true';
+    // In production (NODE_ENV=production), force should be false
+    const force = process.env.NODE_ENV === 'development' && process.env.DB_SYNC_FORCE === 'true'; 
+    console.log(`Database sync starting (force: ${force})...`);
     await syncDatabase(force);
+    console.log('Database sync completed.');
     
-    // Start server 
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`API available at http://localhost:${PORT}/api`);
-      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    });
+    // Start server - Vercel might ignore this, but it's needed for local dev
+    // And the DB sync needs to happen before the module export completes for Vercel
+    // We won't call app.listen() here as Vercel handles invoking the exported app
+    // app.listen(PORT, () => {
+    //   console.log(`Server running on port ${PORT}`);
+    //   console.log(`API available at http://localhost:${PORT}/api`);
+    //   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    // });
+    console.log('Server setup complete (excluding app.listen).');
   } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1); 
+    console.error('Failed during server startup sequence:', error);
+    process.exit(1); // Consider removing this for better error handling in production
   }
 };
 
@@ -75,8 +81,14 @@ process.on('unhandledRejection', (err) => {
   // Don't crash the server, just log the error
 });
 
-// // Start the server --- Handled by Vercel now ---
-// startServer();
+// Immediately invoke startServer to ensure DB connection and sync happen
+// before the module might be required by Vercel's function handler.
+// We wrap the export in a promise that resolves after startServer completes.
+let serverReadyPromise = startServer().then(() => app).catch(err => {
+  console.error("CRITICAL: startServer failed, exporting null.", err);
+  // Exporting null or re-throwing might be options depending on desired Vercel behavior on failure
+  return null; 
+});
 
-// Export the configured Express app for Vercel function handlers
-module.exports = app;
+// Export a promise that resolves to the app instance *after* startup logic
+module.exports = serverReadyPromise;
