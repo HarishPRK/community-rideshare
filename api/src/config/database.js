@@ -25,9 +25,7 @@ const sequelize = new Sequelize(
       // Add SSL options for secure connection to RDS
       ssl: {
         require: true,
-        // Depending on your RDS setup and CA, you might need:
-        // rejectUnauthorized: false // Use with caution, less secure
-        // ca: fs.readFileSync(__dirname + '/path/to/rds-ca-2019-root.pem') // If specific CA cert needed
+        rejectUnauthorized: false // Allow self-signed certificates
       }
     }
   }
