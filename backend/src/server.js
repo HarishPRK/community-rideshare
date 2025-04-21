@@ -39,34 +39,34 @@ app.use('/api', routes);
 // Error handling middleware - should be last
 app.use(errorHandler);
 
-// Connect to database and start server
-const startServer = async () => {
-  try {
-    // Test database connection
-    try {
-      await sequelize.authenticate();
-      console.log('Database connection has been established successfully.');
-    } catch (error) {
-      console.error('Unable to connect to the database:', error);
-      console.error('Failed to connect to the database. Server will not start.');
-      process.exit(1);
-    }
+// // Connect to database and start server --- Temporarily commented out for Vercel diagnosis ---
+// const startServer = async () => {
+//   try {
+//     // Test database connection
+//     try {
+//       await sequelize.authenticate();
+//       console.log('Database connection has been established successfully.');
+//     } catch (error) {
+//       console.error('Unable to connect to the database:', error);
+//       console.error('Failed to connect to the database. Server will not start.');
+//       process.exit(1); // Problematic in serverless
+//     }
     
-    // Sync database models (set to true to force recreate tables - use carefully)
-    const force = process.env.NODE_ENV === 'development' && process.env.DB_SYNC_FORCE === 'true';
-    await syncDatabase(force);
+//     // Sync database models (set to true to force recreate tables - use carefully)
+//     const force = process.env.NODE_ENV === 'development' && process.env.DB_SYNC_FORCE === 'true';
+//     await syncDatabase(force);
     
-    // Start server
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`API available at http://localhost:${PORT}/api`);
-      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
-  }
-};
+//     // Start server - Vercel handles listening, not app.listen()
+//     // app.listen(PORT, () => {
+//     //   console.log(`Server running on port ${PORT}`);
+//     //   console.log(`API available at http://localhost:${PORT}/api`);
+//     //   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+//     // });
+//   } catch (error) {
+//     console.error('Failed to start server:', error);
+//     process.exit(1); // Problematic in serverless
+//   }
+// };
 
 // Handle unhandled rejections
 process.on('unhandledRejection', (err) => {
@@ -74,8 +74,8 @@ process.on('unhandledRejection', (err) => {
   // Don't crash the server, just log the error
 });
 
-// Start the server
-startServer();
+// // Start the server --- Temporarily commented out for Vercel diagnosis ---
+// startServer();
 
-// For testing purposes
+// Export the Express app for Vercel
 module.exports = app;
