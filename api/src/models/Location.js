@@ -1,10 +1,13 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
+const { UUIDV4 } = require('sequelize');
+
 const Location = sequelize.define('Location', {
   id: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     primaryKey: true,
+    defaultValue: UUIDV4,
     allowNull: false
   },
   address: {
