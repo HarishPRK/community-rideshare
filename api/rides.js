@@ -3,11 +3,8 @@ const app = require('./src/server');
 // Import the specific router for ride routes
 const rideRoutes = require('./src/routes/rideRoutes');
 
-// Mount the ride routes under the /api/rides path
-const apiRouter = require('express').Router();
-apiRouter.use('/rides', rideRoutes); // Mount rideRoutes under /rides within this apiRouter
-
-app.use('/api', apiRouter); // Mount this specific apiRouter under /api
+// Mount the specific router directly. Vercel handles the /api/rides part based on filename.
+app.use('/', rideRoutes); 
 
 // Export the app instance for Vercel
 module.exports = app;

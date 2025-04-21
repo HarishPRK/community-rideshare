@@ -14,11 +14,8 @@ const authRoutes = require('./src/routes/authRoutes');
 // A better approach might be to adjust routes in authRoutes.js to not expect /api/auth
 // But let's try this first: mount the specific router.
 
-// We need to re-create the /api prefix logic here for this specific function
-const apiRouter = require('express').Router();
-apiRouter.use('/auth', authRoutes); // Mount authRoutes under /auth within this apiRouter
-
-app.use('/api', apiRouter); // Mount this specific apiRouter under /api
+// Mount the specific router directly. Vercel handles the /api/auth part based on filename.
+app.use('/', authRoutes); 
 
 // Export the app instance for Vercel
 module.exports = app;
