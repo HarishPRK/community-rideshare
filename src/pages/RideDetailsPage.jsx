@@ -854,7 +854,8 @@ const RideDetailsPage = () => {
             onClick={handleRequestRide}
             disabled={loading || rideLoading || !ride} // Disable while loading or if ride data is missing
           >
-            {loading || rideLoading ? 'Loading...' : 'Request This Ride'}
+            {(loading || rideLoading) && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+            Request This Ride
           </Button>
         </div>
       )}
@@ -887,7 +888,8 @@ const RideDetailsPage = () => {
             onClick={() => handleStatusChange('cancel', { reason: cancelReason })}
             disabled={!cancelReason.trim() || loading || rideLoading || !ride} // Add !ride check
           >
-            {(loading || rideLoading) ? 'Cancelling...' : 'Confirm Cancellation'}
+            {(loading || rideLoading) && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+            Confirm Cancellation
           </Button>
         </Modal.Footer>
       </Modal>
@@ -940,7 +942,8 @@ const RideDetailsPage = () => {
             onClick={() => handleStatusChange('rate', { rating, comment: ratingComment })}
             disabled={loading || rideLoading || !ride} // Add !ride check
           >
-            {(loading || rideLoading) ? 'Submitting...' : 'Submit Rating'}
+            {(loading || rideLoading) && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+            Submit Rating
           </Button>
         </Modal.Footer>
       </Modal>
