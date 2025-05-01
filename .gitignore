@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-<<<<<<< HEAD
 api/node_modules
 /.pnp
 .pnp.js
@@ -15,10 +14,6 @@ api/node_modules
 
 # misc
 .DS_Store
-=======
-api/node_modules/
-/.pnp
-.pnp.js
 
 # Environment variables
 .env
@@ -40,7 +35,6 @@ Thumbs.db
 /coverage
 
 # misc
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 .env.local
 .env.development.local
 .env.test.local
@@ -53,4 +47,3 @@ yarn-error.log*
 =======
 
 .vercel
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
