@@ -11,10 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.8.2",
     "bootstrap": "^5.3.3",
-<<<<<<< HEAD
-=======
     "firebase": "^11.6.0",
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     "fix": "^0.0.3",
     "formik": "^2.4.6",
     "jwt-decode": "^4.0.0",
@@ -30,11 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-<<<<<<< HEAD
-    "build": "react-scripts build",
-=======
     "build": "CI=false react-scripts build",
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
