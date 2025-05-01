@@ -264,6 +264,30 @@ export const RideProvider = ({ children }) => {
     }
   };
 
+  // Send a request to join an existing ride
+  const sendRideRequest = async (rideId) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Assuming the endpoint is POST /api/rides/{rideId}/request
+      // The backend needs to handle associating the currentUser with this ride request
+      const response = await axios.post(`${API_URL}/rides/${rideId}/request`);
+      
+      // Optionally refresh data or handle success message
+      // For now, just return success
+      // You might want to update the ride details or user rides state here
+      
+      return { success: true, data: response.data };
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || 'Failed to send ride request.';
+      setError(errorMessage);
+      return { success: false, message: errorMessage };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Context value
   const rideContextValue = {
     availableRides,
@@ -279,6 +303,7 @@ export const RideProvider = ({ children }) => {
     cancelRide,
     submitRating,
     searchRides,
+    sendRideRequest, // Add the new function here
     refreshRides: () => {
       fetchAvailableRides();
       fetchUserRides();

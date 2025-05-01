@@ -55,6 +55,7 @@ const RideDetailsPage = () => {
     completeRide,
     cancelRide,
     submitRating,
+    sendRideRequest, // Import the new function
     loading: rideLoading, 
     error: rideError 
   } = useRide();
@@ -193,6 +194,27 @@ const RideDetailsPage = () => {
         }
       } else {
         throw new Error(result.message || `Failed to ${action} ride`);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle requesting the ride
+  const handleRequestRide = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      const result = await sendRideRequest(rideId);
+      if (result.success) {
+        setSuccessMessage('Ride requested successfully! The driver will review your request.');
+        // Optionally, update the ride state locally or re-fetch details
+        // For now, just show success message. The button should disappear based on updated state if re-fetched.
+        // Consider disabling the button immediately after successful request
+      } else {
+        throw new Error(result.message || 'Failed to send ride request');
       }
     } catch (err) {
       setError(err.message);
@@ -607,38 +629,39 @@ const RideDetailsPage = () => {
                     {/* Action buttons based on role and ride status */}
                     {isDriver && ride.status === 'pending' && (
                       <Button 
-                        variant="success" 
+                        variant="success"
                         onClick={() => handleStatusChange('accept')}
-                        disabled={loading || rideLoading}
+                        disabled={loading || rideLoading || !ride} // Add !ride check
                       >
                         Accept Request
                       </Button>
                     )}
-                    
+
                     {isDriver && ride.status === 'accepted' && (
-                      <Button 
-                        variant="primary" 
+                      <Button
+                        variant="primary"
                         onClick={() => handleStatusChange('start')}
-                        disabled={loading || rideLoading}
+                        disabled={loading || rideLoading || !ride} // Add !ride check
                       >
                         Start Ride
                       </Button>
                     )}
-                    
+
                     {isDriver && ride.status === 'in_progress' && (
-                      <Button 
-                        variant="success" 
+                      <Button
+                        variant="success"
                         onClick={() => handleStatusChange('complete')}
-                        disabled={loading || rideLoading}
+                        disabled={loading || rideLoading || !ride} // Add !ride check
                       >
                         Complete Ride
                       </Button>
                     )}
-                    
+
                     {isRider && ride.status === 'completed' && !ride.rating && (
-                      <Button 
-                        variant="primary" 
+                      <Button
+                        variant="primary"
                         onClick={() => setShowRatingModal(true)}
+                        disabled={loading || rideLoading || !ride} // Add !ride check
                       >
                         Rate this Ride
                       </Button>
@@ -647,20 +670,22 @@ const RideDetailsPage = () => {
                     {/* Cancel button for pending or accepted rides */}
                     {(isDriver || isRider) && 
                      (ride.status === 'pending' || ride.status === 'accepted') && (
-                      <Button 
-                        variant="outline-danger" 
+                      <Button
+                        variant="outline-danger"
                         onClick={() => setShowCancelModal(true)}
+                        disabled={loading || rideLoading || !ride} // Add !ride check
                       >
                         Cancel Ride
                       </Button>
                     )}
-                    
+
                     {/* Contact button for accepted or in_progress rides */}
-                    {(isDriver || isRider) && 
+                    {(isDriver || isRider) &&
                      (ride.status === 'accepted' || ride.status === 'in_progress') && (
-                      <Button 
-                        variant="outline-primary" 
+                      <Button
+                        variant="outline-primary"
                         onClick={() => setShowContactModal(true)}
+                        disabled={loading || rideLoading || !ride} // Add !ride check
                       >
                         Contact {isDriver ? 'Passenger' : 'Driver'}
                       </Button>
@@ -819,6 +844,20 @@ const RideDetailsPage = () => {
           </Card>
         </Col>
       </Row>
+
+      {/* --- Add Request Button Logic Here --- */}
+      {currentUser && !isDriver && !isRider && ride && ride.status === 'pending' && (ride.passengers < ride.maxPassengers) && (
+        <div className="text-end mt-4"> {/* Position it */}
+          <Button
+            variant="success"
+            size="lg"
+            onClick={handleRequestRide}
+            disabled={loading || rideLoading || !ride} // Disable while loading or if ride data is missing
+          >
+            {loading || rideLoading ? 'Loading...' : 'Request This Ride'}
+          </Button>
+        </div>
+      )}
       
       {/* Cancel Ride Modal */}
       <Modal show={showCancelModal} onHide={() => setShowCancelModal(false)} centered>
@@ -844,11 +883,11 @@ const RideDetailsPage = () => {
             Close
           </Button>
           <Button 
-            variant="danger" 
+            variant="danger"
             onClick={() => handleStatusChange('cancel', { reason: cancelReason })}
-            disabled={!cancelReason.trim() || loading || rideLoading}
+            disabled={!cancelReason.trim() || loading || rideLoading || !ride} // Add !ride check
           >
-            {(loading || rideLoading) ? 'Cancelling...' : 'Cancel Ride'}
+            {(loading || rideLoading) ? 'Cancelling...' : 'Confirm Cancellation'}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -897,9 +936,9 @@ const RideDetailsPage = () => {
             Cancel
           </Button>
           <Button 
-            variant="primary" 
+            variant="primary"
             onClick={() => handleStatusChange('rate', { rating, comment: ratingComment })}
-            disabled={loading || rideLoading}
+            disabled={loading || rideLoading || !ride} // Add !ride check
           >
             {(loading || rideLoading) ? 'Submitting...' : 'Submit Rating'}
           </Button>
