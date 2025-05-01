@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+=======
+import axios from 'axios';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import GoogleMapsSingleton from './utils/googleMapsSingleton';
+import { getGoogleMapsApiKey } from './utils/mapUtils';
+import GoogleMapsErrorHandler from './components/common/GoogleMapsErrorHandler';
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 
 // Layout components
 import Header from './components/common/Header';
@@ -15,9 +24,22 @@ import RequestRidePage from './pages/RequestRidePage';
 import OfferRidePage from './pages/OfferRidePage';
 import RideDetailsPage from './pages/RideDetailsPage';
 import RideHistoryPage from './pages/RideHistoryPage';
+<<<<<<< HEAD
 import SearchRidesPage from './pages/SearchRidesPage';
 import NotFoundPage from './pages/NotFoundPage';
 
+=======
+import MyOfferedRidesPage from './pages/MyOfferedRidesPage';
+import SearchRidesPage from './pages/SearchRidesPage';
+import AuthDebugPage from './pages/AuthDebugPage';
+import MapDebugPage from './pages/MapDebugPage';
+import NotFoundPage from './pages/NotFoundPage';
+
+// Test components
+import MapTest from './components/test/MapTest';
+import ApiTest from './components/test/ApiTest';
+
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 // Context
 import { AuthProvider } from './contexts/AuthContext';
 import { RideProvider } from './contexts/RideContext';
@@ -28,12 +50,62 @@ import './assets/styles/App.css';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+<<<<<<< HEAD
   
   // Simulate initial app loading/authentication check
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
+=======
+  const [authReady, setAuthReady] = useState(false);
+  
+  // Initialize Google Maps API and check authentication
+  useEffect(() => {
+    // Check if token exists in localStorage and set in axios headers
+    const token = localStorage.getItem('token');
+    if (token && !axios.defaults.headers.common['Authorization']) {
+      console.log('App: Setting Authorization header from localStorage');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+    
+    // Preload Google Maps API with our singleton implementation
+    const preloadMaps = async () => {
+      try {
+        console.log('App: Initializing Google Maps API Singleton');
+        
+        // Get API key from environment
+        const { apiKey, isValid } = getGoogleMapsApiKey();
+        
+        if (!isValid) {
+          console.error('Google Maps API key is missing or invalid');
+          return;
+        }
+        
+        // Initialize the singleton with API key
+        GoogleMapsSingleton.init(apiKey);
+        
+        // Start loading the API in the background
+        GoogleMapsSingleton.load()
+          .then(() => {
+            console.log('App: Google Maps API loaded successfully via singleton');
+          })
+          .catch((error) => {
+            console.error('App: Failed to load Google Maps:', error);
+          });
+      } catch (error) {
+        console.error('App: Error initializing Google Maps:', error);
+      }
+    };
+    
+    // Start loading after a short delay to prioritize UI rendering
+    const timer = setTimeout(() => {
+      preloadMaps();
+      setIsLoading(false);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   }, []);
 
   if (isLoading) {
@@ -51,9 +123,18 @@ function App() {
       <RideProvider>
         {/* Removed Router component as it's already in index.js */}
         <div className="app-container d-flex flex-column min-vh-100">
+<<<<<<< HEAD
           <Header />
           <main className="flex-grow-1 py-4">
             <Container>
+=======
+          {/* Global error handler for Google Maps issues */}
+          <GoogleMapsErrorHandler />
+          <Header />
+          {/* Add inline style to remove top padding specifically for the main content area */}
+          <main className="flex-grow-1" style={{ paddingTop: 0 }}> 
+            <Container className={window.location.pathname !== '/' ? 'py-4' : ''}>
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
@@ -85,6 +166,7 @@ function App() {
                     </ProtectedRoute>
                   } 
                 />
+<<<<<<< HEAD
                 <Route 
                   path="/rides/:rideId" 
                   element={
@@ -92,6 +174,12 @@ function App() {
                       <RideDetailsPage />
                     </ProtectedRoute>
                   } 
+=======
+                {/* Temporarily making this public for testing */}
+                <Route 
+                  path="/rides/:rideId" 
+                  element={<RideDetailsPage />} 
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                 />
                 <Route 
                   path="/ride-history" 
@@ -101,6 +189,23 @@ function App() {
                     </ProtectedRoute>
                   } 
                 />
+<<<<<<< HEAD
+=======
+                <Route 
+                  path="/my-offered-rides" 
+                  element={
+                    <ProtectedRoute>
+                      <MyOfferedRidesPage />
+                    </ProtectedRoute>
+                  } 
+                />
+                
+                {/* Test routes */}
+                <Route path="/map-test" element={<MapTest />} />
+                <Route path="/api-test" element={<ApiTest />} />
+                <Route path="/debug" element={<AuthDebugPage />} />
+                <Route path="/map-debug" element={<MapDebugPage />} />
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                 
                 {/* Catch-all route for 404 */}
                 <Route path="*" element={<NotFoundPage />} />
@@ -125,4 +230,8 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

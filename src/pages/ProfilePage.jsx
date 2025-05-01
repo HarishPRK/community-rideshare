@@ -93,6 +93,7 @@ const ProfilePage = () => {
         preferredPaymentMethod: currentUser.preferredPaymentMethod || 'cash',
       });
       
+<<<<<<< HEAD
       if (currentUser.vehicle) {
         setVehicleData({
           model: currentUser.vehicle.model || '',
@@ -100,6 +101,30 @@ const ProfilePage = () => {
           year: currentUser.vehicle.year || '',
           licensePlate: currentUser.vehicle.licensePlate || '',
           seats: currentUser.vehicle.seats || 4,
+=======
+      // Correctly access vehicle data from the 'vehicles' array
+      const userVehicle = currentUser.vehicles && currentUser.vehicles.length > 0 
+        ? currentUser.vehicles[0] 
+        : null;
+
+      if (userVehicle) {
+        setVehicleData({
+          model: userVehicle.model || '',
+          color: userVehicle.color || '',
+          year: userVehicle.year || '',
+          licensePlate: userVehicle.licensePlate || '',
+          // Use 'capacity' from backend, map to 'seats' in frontend state
+          seats: userVehicle.capacity || 4, 
+        });
+      } else {
+        // Reset vehicle form if no vehicle data is present
+        setVehicleData({
+          model: '',
+          color: '',
+          year: '',
+          licensePlate: '',
+          seats: 4,
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
         });
       }
       
@@ -192,11 +217,43 @@ const ProfilePage = () => {
       const result = await updateProfile(formData);
       
       if (result.success) {
+<<<<<<< HEAD
         setSuccess('Profile updated successfully!');
         setIsEditing(false);
         
         // Refresh user profile
         refreshUserProfile();
+=======
+        // Explicitly refresh profile data *before* setting success/editing state
+        const refreshedUser = await refreshUserProfile(); // Wait for the refresh and get the data
+        
+        // Directly update local vehicle state from the refreshed data
+        if (refreshedUser) {
+           const userVehicle = refreshedUser.vehicles && refreshedUser.vehicles.length > 0 
+             ? refreshedUser.vehicles[0] 
+             : null;
+
+           if (userVehicle) {
+             setVehicleData({
+               model: userVehicle.model || '',
+               color: userVehicle.color || '',
+               year: userVehicle.year || '',
+               licensePlate: userVehicle.licensePlate || '',
+               seats: userVehicle.capacity || 4, 
+             });
+           } else {
+             // Reset form if no vehicle in refreshed data
+             setVehicleData({ model: '', color: '', year: '', licensePlate: '', seats: 4 });
+           }
+        } else {
+           console.warn("Could not get refreshed user data to update local state.");
+           // Optionally keep existing local state or reset, depending on desired behavior
+        }
+        
+        setSuccess('Profile updated successfully!');
+        setIsEditing(false);
+        
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       } else {
         throw new Error(result.message || 'Failed to update profile');
       }
@@ -987,4 +1044,8 @@ const ProfilePage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default ProfilePage;
+=======
+export default ProfilePage;
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

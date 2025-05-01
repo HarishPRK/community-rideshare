@@ -14,7 +14,12 @@ import {
   FaInfoCircle,
   FaSort,
   FaSortUp,
+<<<<<<< HEAD
   FaSortDown
+=======
+  FaSortDown,
+  FaMoneyBillWave
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 } from 'react-icons/fa';
 import { useRide } from '../contexts/RideContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -396,6 +401,7 @@ const RideHistoryPage = () => {
                               </div>
                             </td>
                             <td>
+<<<<<<< HEAD
                               {ride.rider ? (
                                 <div className="d-flex align-items-center">
                                   <div 
@@ -415,6 +421,33 @@ const RideHistoryPage = () => {
                               ) : (
                                 <span className="text-muted">No passenger yet</span>
                               )}
+=======
+                              {/* Find accepted passengers from the requests array */}
+                              {(() => {
+                                const acceptedRequests = ride.requests?.filter(req => req.status === 'ACCEPTED') || [];
+                                if (acceptedRequests.length > 0) {
+                                  return acceptedRequests.map((request, index) => (
+                                    <div key={request.id} className={`d-flex align-items-center ${index > 0 ? 'mt-1' : ''}`}>
+                                      <div 
+                                        className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-2"
+                                    style={{ width: '32px', height: '32px' }}
+                                  >
+                                        <FaUser className="text-white" size={14} />
+                                      </div>
+                                      <div>
+                                        <div>{request.passenger?.name || 'Passenger'}</div>
+                                        <div className="d-flex align-items-center text-muted small">
+                                          <FaStar className="text-warning me-1" />
+                                          <span>{request.passenger?.rating?.toFixed(1) || 'N/A'}</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ));
+                                } else {
+                                  return <span className="text-muted">No passenger yet</span>;
+                                }
+                              })()}
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                             </td>
                             <td>
                               <div className="d-flex gap-2">
@@ -761,4 +794,8 @@ const RideHistoryPage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default RideHistoryPage;
+=======
+export default RideHistoryPage;
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

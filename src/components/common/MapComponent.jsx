@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import { GoogleMap, Marker, DirectionsRenderer, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import { Spinner, Alert, Button } from 'react-bootstrap';
 import { FaMapMarkerAlt, FaLocationArrow, FaRoute } from 'react-icons/fa';
+=======
+import { GoogleMap, Marker, DirectionsRenderer, InfoWindow } from '@react-google-maps/api';
+import { Spinner, Alert, Button } from 'react-bootstrap';
+import { FaMapMarkerAlt, FaLocationArrow, FaRoute } from 'react-icons/fa';
+import GoogleMapsSingleton from '../../utils/googleMapsSingleton';
+import { getGoogleMapsApiKey } from '../../utils/mapUtils';
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 
 /**
  * MapComponent - A reusable Google Maps component
@@ -10,7 +18,10 @@ import { FaMapMarkerAlt, FaLocationArrow, FaRoute } from 'react-icons/fa';
  * Can be used for displaying routes, selecting locations, and viewing ride details
  */
 const MapComponent = ({
+<<<<<<< HEAD
   apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '',
+=======
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   height = '400px',
   width = '100%',
   center = { lat: 37.7749, lng: -122.4194 }, // Default to San Francisco
@@ -28,11 +39,44 @@ const MapComponent = ({
   streetViewControl = false,
   mapTypeControl = false,
 }) => {
+<<<<<<< HEAD
   // Load Google Maps API
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: apiKey,
     libraries: ['places'],
   });
+=======
+  // Use our custom singleton loader
+  const [isLoaded, setIsLoaded] = useState(GoogleMapsSingleton.isLoaded());
+  const [loadError, setLoadError] = useState(null);
+  
+  // Load Google Maps
+  useEffect(() => {
+    if (!isLoaded) {
+      // Initialize with API key first
+      const { apiKey, isValid } = getGoogleMapsApiKey();
+      
+      if (!isValid) {
+        setLoadError(new Error('Google Maps API key is missing or invalid'));
+        return;
+      }
+      
+      // Initialize the singleton with the API key
+      GoogleMapsSingleton.init(apiKey);
+      
+      // Load Google Maps
+      GoogleMapsSingleton.load()
+        .then(() => {
+          console.log('MapComponent - Google Maps loaded successfully');
+          setIsLoaded(true);
+        })
+        .catch(error => {
+          console.error('MapComponent - Error loading Google Maps:', error);
+          setLoadError(error);
+        });
+    }
+  }, [isLoaded]);
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 
   // State
   const [directions, setDirections] = useState(null);
@@ -341,4 +385,8 @@ MapComponent.propTypes = {
   mapTypeControl: PropTypes.bool,
 };
 
+<<<<<<< HEAD
 export default MapComponent;
+=======
+export default MapComponent;
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

@@ -188,14 +188,51 @@ export const rideService = {
    */
   getRideById: async (rideId) => {
     try {
+<<<<<<< HEAD
       const response = await axios.get(`${API_URL}/rides/${rideId}`);
       return response.data;
     } catch (error) {
+=======
+      console.log(`apiService: Fetching ride details for ID ${rideId}`);
+      
+      // Add additional logging to check headers
+      console.log('apiService: Request headers:', axios.defaults.headers.common);
+      
+      // Make sure we have a token in the headers
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // For development/testing, use a test token if needed
+        const testToken = 'test-token-for-debugging';
+        localStorage.setItem('token', testToken);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${testToken}`;
+        console.log('apiService: Added test token to headers');
+      }
+      
+      const response = await axios.get(`${API_URL}/rides/${rideId}`);
+      console.log('apiService: Ride details raw response:', response);
+      
+      // Handle different response structures
+      if (response.data && typeof response.data === 'object') {
+        return response.data;
+      } else {
+        console.error('apiService: Unexpected response format:', response);
+        throw new Error('Invalid response format from server');
+      }
+    } catch (error) {
+      console.error(`apiService: Error fetching ride details for ID ${rideId}:`, error);
+      
+      if (error.response) {
+        console.error('apiService: Error response data:', error.response.data);
+        console.error('apiService: Error response status:', error.response.status);
+      }
+      
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       throw handleApiError(error);
     }
   },
 
   /**
+<<<<<<< HEAD
    * Request a new ride
    * @param {Object} rideData - Ride request data
    * @returns {Promise} Promise resolving to API response
@@ -205,20 +242,63 @@ export const rideService = {
       const response = await axios.post(`${API_URL}/rides/request`, rideData);
       return response.data;
     } catch (error) {
+=======
+   * Request to join an existing ride as a passenger
+   * @param {Object} requestData - Request data with rideId and passengers count
+   * @returns {Promise} Promise resolving to API response
+   */
+  requestRide: async (requestData) => {
+    try {
+      console.log('API Service - Requesting ride with URL:', `${API_URL}/rides/request`, 'and data:', requestData);
+      const response = await axios.post(`${API_URL}/rides/request`, requestData);
+      console.log('API Service - Ride request response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('API Service - Ride request error:', error);
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       throw handleApiError(error);
     }
   },
 
   /**
+<<<<<<< HEAD
    * Offer a new ride
    * @param {Object} rideData - Ride offer data
+=======
+   * Offer a new ride as a driver
+   * @param {Object} rideData - Complete ride details (pickup, dropoff, time, etc.)
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
    * @returns {Promise} Promise resolving to API response
    */
   offerRide: async (rideData) => {
     try {
+<<<<<<< HEAD
       const response = await axios.post(`${API_URL}/rides/offer`, rideData);
       return response.data;
     } catch (error) {
+=======
+      // Set a token for testing (if one doesn't exist)
+      const token = localStorage.getItem('token') || 'dummy-test-token';
+      
+      // Log the full request details for debugging
+      console.log('API Service - Offering ride with URL:', `${API_URL}/rides/offer`);
+      console.log('API Service - Request data:', JSON.stringify(rideData, null, 2));
+      
+      // In development mode with simplified auth, we don't actually need a real token
+      // Our simplifiedAuth middleware will handle authentication
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+      
+      const response = await axios.post(`${API_URL}/rides/offer`, rideData, { headers });
+      console.log('API Service - Ride offer response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('API Service - Ride offer error:', error.message);
+      console.error('API Service - Error response:', error.response?.data);
+      console.error('API Service - Error status:', error.response?.status);
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       throw handleApiError(error);
     }
   },
@@ -338,4 +418,8 @@ export default {
   auth: authService,
   user: userService,
   ride: rideService
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

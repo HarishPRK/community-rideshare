@@ -12,6 +12,10 @@ const RegisterPage = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+<<<<<<< HEAD
+=======
+    name: '',
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     email: '',
     phone: '',
     password: '',
@@ -150,6 +154,10 @@ const RegisterPage = () => {
       const result = await register({
         firstName: formData.firstName,
         lastName: formData.lastName,
+<<<<<<< HEAD
+=======
+        name: formData.firstName + formData.lastName,
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
         email: formData.email,
         phoneNumber: formData.phone,
         password: formData.password

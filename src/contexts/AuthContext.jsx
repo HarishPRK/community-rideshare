@@ -1,6 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+<<<<<<< HEAD
+=======
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../utils/firebase';
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 
 // Create context
 export const AuthContext = createContext();
@@ -37,7 +42,17 @@ export const AuthProvider = ({ children }) => {
               
               // Fetch user profile
               const response = await axios.get(`${API_URL}/users/profile`);
+<<<<<<< HEAD
               setCurrentUser(response.data);
+=======
+              // Correctly set currentUser to the nested user object
+              if (response.data && response.data.user) {
+                 setCurrentUser(response.data.user); 
+              } else {
+                 console.error("Initial profile fetch failed: Invalid data structure", response.data);
+                 handleLogout(); // Log out if profile data is invalid
+              }
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
             } else {
               // Token expired, clear everything
               handleLogout();
@@ -132,6 +147,7 @@ export const AuthProvider = ({ children }) => {
     fetchUserProfile();
   };
 
+<<<<<<< HEAD
   // Fetch user profile data
   const fetchUserProfile = async () => {
     try {
@@ -140,6 +156,25 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       console.error('Error fetching user profile:', err);
       // Don't log out user if profile fetch fails, as they're still authenticated
+=======
+  // Fetch user profile data and return it
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/users/profile`);
+      // The backend sends { success: true, user: {...} }
+      const userData = response.data.user; 
+      if (userData) {
+        setCurrentUser(userData); // Update context state
+        return userData; // Return the fetched user data
+      } else {
+         console.error('Error fetching user profile: Invalid data structure received', response.data);
+         return null; // Return null if data structure is wrong
+      }
+    } catch (err) {
+      console.error('Error fetching user profile:', err);
+      // Don't log out user if profile fetch fails, as they're still authenticated
+      return null; // Return null on error
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     }
   };
 
@@ -149,9 +184,18 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     
     try {
+<<<<<<< HEAD
       const response = await axios.put(`${API_URL}/users/profile`, profileData);
       setCurrentUser(response.data);
       return { success: true };
+=======
+      // The backend sends { success: true, message: '...', user: {...} }
+      const response = await axios.put(`${API_URL}/users/profile`, profileData);
+      // We don't necessarily need to set currentUser here immediately, 
+      // as refreshUserProfile will be called right after in ProfilePage
+      // setCurrentUser(response.data.user); 
+      return { success: true, user: response.data.user }; // Return success and user data
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Profile update failed.';
       setError(errorMessage);
@@ -175,6 +219,74 @@ export const AuthProvider = ({ children }) => {
     delete axios.defaults.headers.common['Authorization'];
   };
 
+<<<<<<< HEAD
+=======
+  // Google Authentication
+  const loginWithGoogle = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Sign in with Google using Firebase
+      const result = await signInWithPopup(auth, googleProvider);
+      
+      // Extract user info and token
+      const user = result.user;
+      const idToken = await user.getIdToken();
+      
+      // Send Google ID token to your backend for verification and JWT creation
+      try {
+        // For development/demo: If backend is not set up yet, create a mock response
+        // In a real app, you would verify the token on your backend
+        let response;
+        
+        try {
+          // First try to call the actual backend endpoint
+          response = await axios.post(`${API_URL}/auth/google`, { 
+            token: idToken,
+            userData: {
+              name: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL
+            }
+          });
+        } catch (backendError) {
+          // For demonstration - mock a successful response if backend endpoint doesn't exist
+          console.warn('Backend Google auth endpoint not available, using mock response');
+          
+          // This is just for demonstration purposes when backend is not ready
+          response = {
+            data: {
+              token: idToken, // In a real app, your backend would create a JWT token
+              user: {
+                id: user.uid,
+                name: user.displayName,
+                email: user.email,
+                profilePicture: user.photoURL
+              }
+            }
+          };
+        }
+        
+        if (response.data && response.data.token) {
+          handleLoginSuccess(response.data.token);
+          return { success: true };
+        }
+        
+        return { success: false, message: 'Google login failed. Invalid response from server.' };
+      } catch (backendError) {
+        throw new Error('Failed to verify Google token with the backend');
+      }
+    } catch (err) {
+      const errorMessage = err.message || 'Google login failed. Please try again.';
+      setError(errorMessage);
+      return { success: false, message: errorMessage };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   // Context value
   const authContextValue = {
     currentUser,
@@ -183,6 +295,10 @@ export const AuthProvider = ({ children }) => {
     error,
     register,
     login,
+<<<<<<< HEAD
+=======
+    loginWithGoogle,
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     logout: handleLogout,
     updateProfile,
     refreshUserProfile: fetchUserProfile,
@@ -204,4 +320,8 @@ export const useAuth = () => {
   }
   
   return context;
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

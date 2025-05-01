@@ -23,10 +23,17 @@ const Header = () => {
       bg="primary" 
       variant="dark" 
       expand="lg" 
+<<<<<<< HEAD
       sticky="top" 
       expanded={expanded} 
       onToggle={setExpanded}
       className="shadow-sm"
+=======
+      // Removed sticky="top" to test layout interaction
+      expanded={expanded} 
+      onToggle={setExpanded}
+      className="shadow-sm mb-0" // Added mb-0 to remove potential bottom margin
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     >
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
@@ -78,6 +85,14 @@ const Header = () => {
                       Ride History
                     </Dropdown.Item>
                     
+<<<<<<< HEAD
+=======
+                    <Dropdown.Item as={Link} to="/my-offered-rides" onClick={closeNavbar}>
+                      <FaCarAlt className="me-2" />
+                      My Offered Rides
+                    </Dropdown.Item>
+                    
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                     <Dropdown.Item as={Link} to="/settings" onClick={closeNavbar}>
                       <FaCog className="me-2" />
                       Settings
@@ -117,4 +132,8 @@ const Header = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Header;
+=======
+export default Header;
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

@@ -11,6 +11,11 @@ import OfferRidePage from './pages/OfferRidePage';
 import RideDetailsPage from './pages/RideDetailsPage';
 import RideHistoryPage from './pages/RideHistoryPage';
 import SearchRidesPage from './pages/SearchRidesPage';
+<<<<<<< HEAD
+=======
+import AuthDebugPage from './pages/AuthDebugPage';
+import ApiDebugPage from './pages/ApiDebugPage';
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 import NotFoundPage from './pages/NotFoundPage';
 
 // Route definitions
@@ -60,6 +65,19 @@ const routes = [
     element: <SearchRidesPage />,
   },
   {
+<<<<<<< HEAD
+=======
+    path: '/auth-debug',
+    element: <AuthDebugPage />,
+    // Not protected, so we can debug auth issues even when not logged in
+  },
+  {
+    path: '/api-debug',
+    element: <ApiDebugPage />,
+    // Not protected, so we can debug API issues even when not logged in
+  },
+  {
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     path: '*',
     element: <NotFoundPage />,
   },
@@ -71,4 +89,8 @@ export const ProtectedRoute = ({ children, redirectPath = '/login' }) => {
   return isAuthenticated ? children : <Navigate to={redirectPath} replace />;
 };
 
+<<<<<<< HEAD
 export default routes;
+=======
+export default routes;
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

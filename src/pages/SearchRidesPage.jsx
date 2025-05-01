@@ -16,7 +16,11 @@ import {
   DropdownButton
 } from 'react-bootstrap';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
+<<<<<<< HEAD
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
+=======
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 import { 
   FaSearch, 
   FaMapMarkerAlt, 
@@ -34,12 +38,17 @@ import {
 } from 'react-icons/fa';
 import { useRide } from '../contexts/RideContext';
 import { useAuth } from '../contexts/AuthContext';
+<<<<<<< HEAD
 
 // Google Maps API key from environment variables
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'your-default-api-key';
 
 // Libraries for Google Maps
 const libraries = ['places'];
+=======
+import GoogleMapsSingleton from '../utils/googleMapsSingleton';
+import { getGoogleMapsApiKey } from '../utils/mapUtils';
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 
 const SearchRidesPage = () => {
   const location = useLocation();
@@ -51,11 +60,44 @@ const SearchRidesPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const locationParam = queryParams.get('location') || '';
   
+<<<<<<< HEAD
   // Load Google Maps API
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
     libraries,
   });
+=======
+  // Google Maps state
+  const [isLoaded, setIsLoaded] = useState(GoogleMapsSingleton.isLoaded());
+  const [loadError, setLoadError] = useState(null);
+  
+  // Initialize Google Maps
+  useEffect(() => {
+    if (!isLoaded) {
+      // Get API key
+      const { apiKey, isValid } = getGoogleMapsApiKey();
+      
+      if (!isValid) {
+        setLoadError(new Error('Google Maps API key is missing or invalid'));
+        return;
+      }
+      
+      // Initialize the singleton with the API key
+      GoogleMapsSingleton.init(apiKey);
+      
+      // Load Google Maps
+      GoogleMapsSingleton.load()
+        .then(() => {
+          console.log('SearchRidesPage: Google Maps loaded successfully');
+          setIsLoaded(true);
+        })
+        .catch(error => {
+          console.error('SearchRidesPage: Failed to load Google Maps:', error);
+          setLoadError(error);
+        });
+    }
+  }, [isLoaded]);
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   
   // Search states
   const [searchResults, setSearchResults] = useState([]);
@@ -102,6 +144,7 @@ const SearchRidesPage = () => {
     }
   }, [isLoaded]);
   
+<<<<<<< HEAD
   // Format date for display
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -109,6 +152,26 @@ const SearchRidesPage = () => {
     return date.toLocaleDateString('en-US', {
       weekday: 'short',
       month: 'short',
+=======
+  // Format date for display (Corrected to handle potential timezone issues)
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    // Split the date string 'YYYY-MM-DD'
+    const parts = dateString.split('-');
+    if (parts.length !== 3) {
+      // Fallback for unexpected format
+      return dateString; 
+    }
+    // Create date using year, month (0-indexed), day to treat as local
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
+    const day = parseInt(parts[2], 10);
+    const date = new Date(year, month, day); 
+    
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short', 
+      month: 'short', 
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       day: 'numeric'
     });
   };
@@ -228,7 +291,11 @@ const SearchRidesPage = () => {
     if (loadError) {
       return (
         <Alert variant="danger">
+<<<<<<< HEAD
           Error loading maps. Please try again later.
+=======
+          Error loading maps: {loadError.message || 'Unknown error. Please try again later.'}
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
         </Alert>
       );
     }
@@ -730,4 +797,8 @@ const SearchRidesPage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default SearchRidesPage;
+=======
+export default SearchRidesPage;
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

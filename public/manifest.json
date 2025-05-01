@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "short_name": "React App",
   "name": "Create React App Sample",
+=======
+  "short_name": "Community Rideshare",
+  "name": "Community Rideshare - Shared Transportation Platform",
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +25,10 @@
   ],
   "start_url": ".",
   "display": "standalone",
+<<<<<<< HEAD
   "theme_color": "#000000",
+=======
+  "theme_color": "#1a91ff",
+>>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   "background_color": "#ffffff"
 }
