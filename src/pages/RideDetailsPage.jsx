@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Container, 
-  Row, 
-  Col, 
-  Card, 
-  Button, 
-  Badge, 
-  Alert, 
-=======
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import {
@@ -20,7 +8,6 @@ import {
   Button,
   Badge,
   Alert,
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   Spinner,
   Modal,
   Form,
@@ -28,21 +15,12 @@ import {
   Tab,
   Nav
 } from 'react-bootstrap';
-<<<<<<< HEAD
-import { 
-  FaMapMarkerAlt, 
-  FaCalendarAlt, 
-  FaClock, 
-  FaUserFriends, 
-  FaMoneyBillWave, 
-=======
 import {
   FaMapMarkerAlt,
   FaCalendarAlt,
   FaClock,
   FaUserFriends,
   FaMoneyBillWave,
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   FaInfoCircle,
   FaCar,
   FaPhoneAlt,
@@ -57,15 +35,6 @@ import {
 } from 'react-icons/fa';
 import { useRide } from '../contexts/RideContext';
 import { useAuth } from '../contexts/AuthContext';
-<<<<<<< HEAD
-import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
-
-// Google Maps API key from environment variables
-const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'your-default-api-key';
-
-// Libraries for Google Maps
-const libraries = ['places'];
-=======
 import { GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api';
 import GoogleMapsSingleton from '../utils/googleMapsSingleton';
 import { getGoogleMapsApiKey } from '../utils/mapUtils';
@@ -80,44 +49,24 @@ const getApiFunction = (context, action) => {
     case 'complete': return context.completeRide;
     case 'cancel': return context.cancelRide;
     case 'rate': return context.submitRating;
-    case 'request': return context.requestRide;
+    case 'request_to_join': return context.requestToJoinRide; // Use the function for joining
+    // 'request' might be for creating a new ride request elsewhere, not joining this specific one
+    // case 'request': return context.requestRide;
     default: return null;
   }
 };
 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 
 const RideDetailsPage = () => {
   const { rideId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-<<<<<<< HEAD
-  const { 
-    getRideDetails, 
-    acceptRideRequest,
-    startRide,
-    completeRide,
-    cancelRide,
-    submitRating,
-    sendRideRequest, // Import the new function
-    loading: rideLoading, 
-    error: rideError 
-  } = useRide();
-  
-  // Page states
-  const [ride, setRide] = useState(null);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [directions, setDirections] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(location.state?.success ? "Operation successful!" : "");
-  
-=======
   const rideContext = useRide(); // Get the whole context
   const {
     getRideDetails,
-    loading: rideLoading, // Use context loading for initial fetch
-    error: rideError // Use context error for initial fetch
+    loading: rideLoading, // Use context loading for general state
+    error: rideError // Use context error for general state
   } = rideContext;
 
   // Page states
@@ -128,7 +77,6 @@ const RideDetailsPage = () => {
   const [directions, setDirections] = useState(null);
   const [successMessage, setSuccessMessage] = useState(location.state?.success ? "Operation successful!" : "");
 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   // Modal states
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
@@ -136,46 +84,6 @@ const RideDetailsPage = () => {
   const [cancelReason, setCancelReason] = useState('');
   const [rating, setRating] = useState(5);
   const [ratingComment, setRatingComment] = useState('');
-<<<<<<< HEAD
-  
-  // Load Google Maps API
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
-    libraries,
-  });
-  
-  // Fetch ride details
-  useEffect(() => {
-    const fetchRideDetails = async () => {
-      try {
-        setLoading(true);
-        const result = await getRideDetails(rideId);
-        if (result.success) {
-          setRide(result.data);
-          if (isLoaded && result.data.pickupLocation && result.data.dropoffLocation) {
-            calculateRoute(result.data);
-          }
-        } else {
-          setError('Failed to load ride details');
-        }
-      } catch (err) {
-        setError('An error occurred while fetching ride details');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchRideDetails();
-  }, [rideId, getRideDetails, isLoaded]);
-  
-  // Calculate and display route on map
-  const calculateRoute = (rideData) => {
-    if (!window.google || !rideData) return;
-    
-    const directionsService = new window.google.maps.DirectionsService();
-    
-=======
 
   // Google Maps state
   const [isLoaded, setIsLoaded] = useState(GoogleMapsSingleton.isLoaded());
@@ -260,33 +168,19 @@ const RideDetailsPage = () => {
     if (!window.google || !rideData || !rideData.pickupLocation || !rideData.dropoffLocation) return;
 
     const directionsService = new window.google.maps.DirectionsService();
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     const origin = {
       lat: rideData.pickupLocation.latitude,
       lng: rideData.pickupLocation.longitude
     };
-<<<<<<< HEAD
-    
-=======
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     const destination = {
       lat: rideData.dropoffLocation.latitude,
       lng: rideData.dropoffLocation.longitude
     };
-<<<<<<< HEAD
-    
-    // Convert waypoints if any
-=======
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     const waypoints = (rideData.waypoints || []).map(waypoint => ({
       location: { lat: waypoint.latitude, lng: waypoint.longitude },
       stopover: true
     }));
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     directionsService.route(
       {
         origin,
@@ -304,52 +198,6 @@ const RideDetailsPage = () => {
       }
     );
   };
-<<<<<<< HEAD
-  
-  // Handle ride status change
-  const handleStatusChange = async (action, data = {}) => {
-    setError('');
-    setLoading(true);
-    
-    try {
-      let result;
-      
-      switch (action) {
-        case 'accept':
-          result = await acceptRideRequest(rideId);
-          break;
-        case 'start':
-          result = await startRide(rideId);
-          break;
-        case 'complete':
-          result = await completeRide(rideId);
-          break;
-        case 'cancel':
-          result = await cancelRide(rideId, data.reason);
-          break;
-        case 'rate':
-          result = await submitRating(rideId, {
-            rating: data.rating,
-            comment: data.comment
-          });
-          break;
-        default:
-          throw new Error('Invalid action');
-      }
-      
-      if (result.success) {
-        setRide(result.data);
-        setSuccessMessage(`Ride successfully ${action}ed!`);
-        
-        // Close modals if open
-        setShowCancelModal(false);
-        setShowRatingModal(false);
-        
-        // Reset form fields
-        setCancelReason('');
-        
-        // If the ride was rated, navigate to ride history
-=======
 
   // Handle ride status change / request / accept/reject
   const handleAction = async (action, data = {}) => {
@@ -367,8 +215,8 @@ const RideDetailsPage = () => {
     try {
       let result;
       let payload;
-      let idToUse = rideId;
-      let successMsgAction = action.replace('_request', '');
+      let idToUse = rideId; // Default to rideId
+      let successMsgAction = action.replace('_request', '').replace('_', ' '); // Format action name for messages
 
       switch (action) {
         case 'cancel':
@@ -376,28 +224,26 @@ const RideDetailsPage = () => {
           idToUse = rideId;
           break;
         case 'rate':
+           // Determine who to rate based on current user's role
            const targetUserId = isDriver
-             ? ride?.requests?.find(r => r.status === 'ACCEPTED')?.passengerId
-             : ride?.driver?.id;
+             ? ride?.requests?.find(r => r.status === 'ACCEPTED')?.passengerId // Find accepted passenger
+             : ride?.driver?.id; // Rate the driver
            if (!targetUserId) throw new Error("Cannot determine user to rate.");
            payload = { rating: data.rating, comment: data.comment, toUserId: targetUserId };
            idToUse = rideId;
           break;
-        case 'request':
-          payload = { rideId: rideId, passengerCount: 1 };
-          idToUse = null; // requestRide doesn't take ID as first arg
-          successMsgAction = 'requested';
+        case 'request_to_join': // Action for the "Request This Ride" button
+          idToUse = rideId; // Pass rideId to the context function
+          payload = undefined; // No extra payload needed for joining
+          successMsgAction = 'requested to join';
           break;
         case 'accept_request':
         case 'reject_request':
-          idToUse = data.requestId; // Use request ID
+          idToUse = data.requestId; // Use request ID for accept/reject
           payload = undefined;
-          successMsgAction = action === 'accept_request' ? 'accepted request for' : 'rejected request for';
+          successMsgAction = action === 'accept_request' ? 'accepted request' : 'rejected request';
           break;
         case 'start':
-             idToUse = rideId;
-             payload = undefined;
-             break;
         case 'complete':
              idToUse = rideId;
              payload = undefined;
@@ -409,11 +255,7 @@ const RideDetailsPage = () => {
       console.log(`Performing action: ${action} with ID: ${idToUse}, Payload:`, payload);
 
       // Call the appropriate function from context
-      if (idToUse !== null) {
-         result = await apiFunction(idToUse, payload);
-      } else {
-         result = await apiFunction(payload); // For requestRide
-      }
+      result = await apiFunction(idToUse, payload); // Pass ID and payload
 
       console.log(`Action ${action} result:`, result);
 
@@ -422,20 +264,16 @@ const RideDetailsPage = () => {
         console.log(`Action ${action} successful, re-fetching ride details...`);
         await fetchRideDetails(); // Re-fetch to get latest state
 
-        // Customize success message for accept/reject
-        if (action === 'accept_request' || action === 'reject_request') {
-           // Attempt to find passenger name from the *potentially* updated ride state
-           // It's safer to maybe just show a generic success message here after re-fetch
-           setSuccessMessage(`Request successfully ${successMsgAction}.`);
-        } else {
-           setSuccessMessage(`Ride successfully ${successMsgAction}!`);
-        }
+        setSuccessMessage(`Successfully ${successMsgAction}!`);
 
-        setShowCancelModal(false);
-        setShowRatingModal(false);
+        // Close relevant modals
+        if (action === 'cancel') setShowCancelModal(false);
+        if (action === 'rate') setShowRatingModal(false);
+
+        // Reset form fields
         setCancelReason('');
 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
+        // Navigate away if rating was submitted
         if (action === 'rate') {
           navigate('/ride-history', { state: { success: true } });
         }
@@ -443,77 +281,6 @@ const RideDetailsPage = () => {
         throw new Error(result.message || `Failed to ${action} ride`);
       }
     } catch (err) {
-<<<<<<< HEAD
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Handle requesting the ride
-  const handleRequestRide = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      const result = await sendRideRequest(rideId);
-      if (result.success) {
-        setSuccessMessage('Ride requested successfully! The driver will review your request.');
-        // Optionally, update the ride state locally or re-fetch details
-        // For now, just show success message. The button should disappear based on updated state if re-fetched.
-        // Consider disabling the button immediately after successful request
-      } else {
-        throw new Error(result.message || 'Failed to send ride request');
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  // Determine if the current user is the driver
-  const isDriver = ride && currentUser && ride.driver && ride.driver.id === currentUser.id;
-  
-  // Determine if the current user is the rider
-  const isRider = ride && currentUser && ride.rider && ride.rider.id === currentUser.id;
-  
-  // Get status badge color
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'pending':
-        return <Badge bg="warning">Pending</Badge>;
-      case 'accepted':
-        return <Badge bg="info">Accepted</Badge>;
-      case 'in_progress':
-        return <Badge bg="primary">In Progress</Badge>;
-      case 'completed':
-        return <Badge bg="success">Completed</Badge>;
-      case 'cancelled':
-        return <Badge bg="danger">Cancelled</Badge>;
-      default:
-        return <Badge bg="secondary">{status}</Badge>;
-    }
-  };
-  
-  // Format date
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-  
-  // Format time
-  const formatTime = (timeString) => {
-    return timeString;
-  };
-  
-  // If loading
-  if (loading) {
-=======
       setError(err.message || `An error occurred during action: ${action}`);
       console.error(`Error performing action ${action}:`, err);
     } finally {
@@ -523,24 +290,27 @@ const RideDetailsPage = () => {
 
   // Determine user roles and capabilities
   const isDriver = ride && currentUser && ride.driver && ride.driver.id === currentUser.id;
+  // Find the current user's request for *this specific ride*
   const userRideRequest = ride?.requests?.find(req => req.passengerId === currentUser?.id);
-  const isRider = !!userRideRequest;
+  // User is considered a rider if they have an ACCEPTED request for this ride
+  const isRider = userRideRequest?.status === 'ACCEPTED';
+  // Can request if ride is ACTIVE, user exists, isn't driver, doesn't have *any* request yet, and seats available
   const canRequest = ride?.status === 'ACTIVE' &&
                      currentUser &&
                      !isDriver &&
-                     !isRider &&
+                     !userRideRequest && // Check if user has *any* request (pending, accepted, etc.)
                      ride.passengers < ride.maxPassengers;
 
   // Get status badge color
   const getStatusBadge = (status) => {
     switch (status?.toUpperCase()) {
-      case 'ACTIVE': return <Badge bg="secondary">Active</Badge>;
-      case 'PENDING': return <Badge bg="warning">Pending</Badge>;
-      case 'ACCEPTED': return <Badge bg="info">Accepted</Badge>;
-      case 'IN_PROGRESS': return <Badge bg="primary">In Progress</Badge>;
-      case 'COMPLETED': return <Badge bg="success">Completed</Badge>;
-      case 'CANCELLED': return <Badge bg="danger">Cancelled</Badge>;
-      case 'REJECTED': return <Badge bg="danger">Rejected</Badge>;
+      case 'ACTIVE': return <Badge bg="secondary">Active</Badge>; // Status when ride is offered but not started
+      case 'PENDING': return <Badge bg="warning">Pending</Badge>; // Status for a ride *request*
+      case 'ACCEPTED': return <Badge bg="info">Accepted</Badge>; // Status for a ride *request*
+      case 'IN_PROGRESS': return <Badge bg="primary">In Progress</Badge>; // Status for the *ride*
+      case 'COMPLETED': return <Badge bg="success">Completed</Badge>; // Status for the *ride*
+      case 'CANCELLED': return <Badge bg="danger">Cancelled</Badge>; // Status for the *ride* or *request*
+      case 'REJECTED': return <Badge bg="danger">Rejected</Badge>; // Status for a ride *request*
       default: return <Badge bg="secondary">{status}</Badge>;
     }
   };
@@ -549,7 +319,7 @@ const RideDetailsPage = () => {
   const formatDate = (dateString) => {
     try {
       // dateString should now be a full timestamp string (e.g., 2025-04-17T00:00:00.000Z)
-      const date = new Date(dateString); 
+      const date = new Date(dateString);
       if (isNaN(date.getTime())) return "Invalid Date";
 
       // Extract UTC components to avoid local timezone shifting the date
@@ -559,14 +329,14 @@ const RideDetailsPage = () => {
 
       // Create a new date object using UTC components but interpreted as local
       // This effectively displays the date as it was intended in UTC
-      const displayDate = new Date(year, month, day); 
+      const displayDate = new Date(year, month, day);
 
       return displayDate.toLocaleDateString('en-US', {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
       });
-    } catch (e) { 
+    } catch (e) {
       console.error("Error formatting date:", e); // Log error
-      return "Invalid Date"; 
+      return "Invalid Date";
     }
   };
 
@@ -575,9 +345,9 @@ const RideDetailsPage = () => {
     return timeString || 'N/A';
   };
 
-  // Loading state
+  // Loading state for initial fetch
+  // Use the local 'loading' state which is set/unset in fetchRideDetails
   if (loading && !ride) {
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     return (
       <Container className="py-5 text-center">
         <Spinner animation="border" variant="primary" />
@@ -585,24 +355,14 @@ const RideDetailsPage = () => {
       </Container>
     );
   }
-<<<<<<< HEAD
-  
-  // If error
-  if (error || rideError) {
-    return (
-      <Container className="py-5">
-        <Alert variant="danger">
-          {error || rideError}
-=======
 
-  // Error state
-  const displayError = error || rideError;
+  // Error state (combines initial fetch error and action errors)
+  const displayError = error || rideError; // Show local action error first, then context fetch error
   if (displayError) {
     return (
       <Container className="py-5">
         <Alert variant="danger">
           {typeof displayError === 'string' ? displayError : 'An unknown error occurred.'}
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
         </Alert>
         <Button variant="outline-primary" onClick={() => navigate(-1)}>
           Go Back
@@ -610,16 +370,11 @@ const RideDetailsPage = () => {
       </Container>
     );
   }
-<<<<<<< HEAD
-  
-  // If ride not found
-  if (!ride) {
-=======
 
   // Ride not found state
   if (!ride) {
+    // Avoid showing "Not Found" briefly while initial loading is true
     if (loading) return null;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     return (
       <Container className="py-5">
         <Alert variant="warning">
@@ -631,30 +386,6 @@ const RideDetailsPage = () => {
       </Container>
     );
   }
-<<<<<<< HEAD
-  
-  return (
-    <Container className="py-4">
-      {/* Success Message */}
-      {successMessage && (
-        <Alert 
-          variant="success" 
-          dismissible 
-          onClose={() => setSuccessMessage('')}
-          className="mb-4"
-        >
-          {successMessage}
-        </Alert>
-      )}
-      
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Ride Details</h2>
-        <div>
-          {getStatusBadge(ride.status)}
-        </div>
-      </div>
-      
-=======
 
   // Main component render
   return (
@@ -670,298 +401,12 @@ const RideDetailsPage = () => {
         <div>{getStatusBadge(ride.status)}</div>
       </div>
 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       <Row>
         <Col lg={8} className="mb-4 mb-lg-0">
           <Tab.Container defaultActiveKey="details">
             <Card className="shadow-sm">
               <Card.Header>
                 <Nav variant="tabs">
-<<<<<<< HEAD
-                  <Nav.Item>
-                    <Nav.Link eventKey="details">Ride Information</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="route">Route Map</Nav.Link>
-                  </Nav.Item>
-                  {ride.status === 'completed' && (
-                    <Nav.Item>
-                      <Nav.Link eventKey="feedback">Feedback</Nav.Link>
-                    </Nav.Item>
-                  )}
-                </Nav>
-              </Card.Header>
-              
-              <Card.Body>
-                <Tab.Content>
-                  {/* Details Tab */}
-                  <Tab.Pane eventKey="details">
-                    <Row className="mb-4">
-                      <Col md={6}>
-                        <div className="mb-3">
-                          <h5 className="mb-2">
-                            <FaMapMarkerAlt className="text-primary me-2" />
-                            Pickup Location
-                          </h5>
-                          <p className="mb-0">{ride.pickupLocation.address}</p>
-                        </div>
-                        
-                        <div className="mb-3">
-                          <h5 className="mb-2">
-                            <FaMapMarkerAlt className="text-danger me-2" />
-                            Dropoff Location
-                          </h5>
-                          <p className="mb-0">{ride.dropoffLocation.address}</p>
-                        </div>
-                        
-                        {ride.waypoints && ride.waypoints.length > 0 && (
-                          <div className="mb-3">
-                            <h5 className="mb-2">
-                              <FaRoute className="text-success me-2" />
-                              Stops
-                            </h5>
-                            <ListGroup variant="flush">
-                              {ride.waypoints.map((waypoint, index) => (
-                                <ListGroup.Item key={index}>
-                                  {waypoint.address}
-                                </ListGroup.Item>
-                              ))}
-                            </ListGroup>
-                          </div>
-                        )}
-                      </Col>
-                      
-                      <Col md={6}>
-                        <div className="mb-3">
-                          <h5 className="mb-2">
-                            <FaCalendarAlt className="text-primary me-2" />
-                            Date
-                          </h5>
-                          <p className="mb-0">{formatDate(ride.departureDate)}</p>
-                        </div>
-                        
-                        <div className="mb-3">
-                          <h5 className="mb-2">
-                            <FaClock className="text-primary me-2" />
-                            Time
-                          </h5>
-                          <p className="mb-0">{formatTime(ride.departureTime)}</p>
-                        </div>
-                        
-                        <div className="mb-3">
-                          <h5 className="mb-2">
-                            <FaMoneyBillWave className="text-success me-2" />
-                            {isDriver ? 'Price per Seat' : 'Price'}
-                          </h5>
-                          <p className="mb-0">${ride.price.toFixed(2)}</p>
-                        </div>
-                        
-                        <div className="mb-3">
-                          <h5 className="mb-2">
-                            <FaUserFriends className="text-primary me-2" />
-                            {isDriver ? 'Max Passengers' : 'Passengers'}
-                          </h5>
-                          <p className="mb-0">{ride.passengers}</p>
-                        </div>
-                      </Col>
-                    </Row>
-                    
-                    {ride.notes && (
-                      <div className="mb-4">
-                        <h5 className="mb-2">
-                          <FaInfoCircle className="text-primary me-2" />
-                          Additional Notes
-                        </h5>
-                        <Card className="bg-light">
-                          <Card.Body>
-                            <p className="mb-0">{ride.notes}</p>
-                          </Card.Body>
-                        </Card>
-                      </div>
-                    )}
-                    
-                    {isDriver && ride.status === 'in_progress' && (
-                      <Alert variant="info">
-                        <div className="d-flex align-items-center">
-                          <FaInfoCircle className="me-2" size={20} />
-                          <div>
-                            <p className="mb-0">
-                              Ride in progress. When you've reached the destination, please 
-                              complete the ride.
-                            </p>
-                          </div>
-                        </div>
-                      </Alert>
-                    )}
-                    
-                    {isRider && ride.status === 'in_progress' && (
-                      <Alert variant="info">
-                        <div className="d-flex align-items-center">
-                          <FaInfoCircle className="me-2" size={20} />
-                          <div>
-                            <p className="mb-0">
-                              Your ride is in progress. The driver will mark the ride as complete 
-                              when you reach your destination.
-                            </p>
-                          </div>
-                        </div>
-                      </Alert>
-                    )}
-                    
-                    {ride.status === 'cancelled' && (
-                      <Alert variant="warning">
-                        <div className="d-flex align-items-center">
-                          <FaExclamationTriangle className="me-2" size={20} />
-                          <div>
-                            <p className="mb-0">
-                              <strong>Cancellation Reason:</strong> {ride.cancelReason || 'No reason provided'}
-                            </p>
-                          </div>
-                        </div>
-                      </Alert>
-                    )}
-                  </Tab.Pane>
-                  
-                  {/* Route Map Tab */}
-                  <Tab.Pane eventKey="route">
-                    {isLoaded ? (
-                      <div className="map-container" style={{ height: '500px', width: '100%' }}>
-                        <GoogleMap
-                          mapContainerStyle={{ height: '100%', width: '100%' }}
-                          center={{
-                            lat: ride.pickupLocation.latitude,
-                            lng: ride.pickupLocation.longitude
-                          }}
-                          zoom={12}
-                          options={{
-                            streetViewControl: false,
-                            mapTypeControl: false,
-                            fullscreenControl: true,
-                          }}
-                        >
-                          {/* Pickup Marker */}
-                          <Marker
-                            position={{
-                              lat: ride.pickupLocation.latitude,
-                              lng: ride.pickupLocation.longitude
-                            }}
-                            label={{ text: 'A', color: 'white' }}
-                          />
-                          
-                          {/* Waypoint Markers */}
-                          {ride.waypoints && ride.waypoints.map((waypoint, index) => (
-                            <Marker
-                              key={index}
-                              position={{
-                                lat: waypoint.latitude,
-                                lng: waypoint.longitude
-                              }}
-                              label={{ 
-                                text: String.fromCharCode(66 + index), 
-                                color: 'white' 
-                              }}
-                            />
-                          ))}
-                          
-                          {/* Dropoff Marker */}
-                          <Marker
-                            position={{
-                              lat: ride.dropoffLocation.latitude,
-                              lng: ride.dropoffLocation.longitude
-                            }}
-                            label={{ 
-                              text: String.fromCharCode(
-                                66 + (ride.waypoints ? ride.waypoints.length : 0)
-                              ), 
-                              color: 'white' 
-                            }}
-                          />
-                          
-                          {/* Route Line */}
-                          {directions && (
-                            <DirectionsRenderer
-                              directions={directions}
-                              options={{
-                                polylineOptions: {
-                                  strokeColor: '#0d6efd',
-                                  strokeWeight: 5,
-                                },
-                                suppressMarkers: true,
-                              }}
-                            />
-                          )}
-                        </GoogleMap>
-                      </div>
-                    ) : (
-                      <div className="d-flex justify-content-center align-items-center" style={{ height: '500px' }}>
-                        <Spinner animation="border" variant="primary" />
-                      </div>
-                    )}
-                    
-                    <div className="mt-3">
-                      <div className="d-flex justify-content-between">
-                        <div>
-                          <strong>Distance:</strong> {ride.distance}
-                        </div>
-                        <div>
-                          <strong>Duration:</strong> {ride.duration}
-                        </div>
-                      </div>
-                    </div>
-                  </Tab.Pane>
-                  
-                  {/* Feedback Tab */}
-                  {ride.status === 'completed' && (
-                    <Tab.Pane eventKey="feedback">
-                      {ride.rating ? (
-                        <div>
-                          <div className="mb-3">
-                            <h5 className="mb-2">Rating</h5>
-                            <div className="d-flex align-items-center">
-                              {[...Array(5)].map((_, index) => (
-                                <FaStar 
-                                  key={index}
-                                  className={index < ride.rating ? "text-warning" : "text-muted"}
-                                  size={24}
-                                />
-                              ))}
-                              <span className="ms-2">{ride.rating}/5</span>
-                            </div>
-                          </div>
-                          
-                          {ride.ratingComment && (
-                            <div className="mb-3">
-                              <h5 className="mb-2">Comment</h5>
-                              <Card className="bg-light">
-                                <Card.Body>
-                                  <p className="mb-0">{ride.ratingComment}</p>
-                                </Card.Body>
-                              </Card>
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="text-center py-4">
-                          <FaStar size={48} className="text-muted mb-3" />
-                          <h5>No Rating Yet</h5>
-                          <p className="text-muted">
-                            {isRider ? 
-                              "You haven't rated this ride yet. Please provide your feedback!" : 
-                              "This ride hasn't been rated yet."
-                            }
-                          </p>
-                          
-                          {isRider && (
-                            <Button 
-                              variant="primary" 
-                              onClick={() => setShowRatingModal(true)}
-                            >
-                              Rate this Ride
-                            </Button>
-                          )}
-                        </div>
-                      )}
-=======
                   <Nav.Item><Nav.Link eventKey="details">Ride Information</Nav.Link></Nav.Item>
                   <Nav.Item><Nav.Link eventKey="route">Route Map</Nav.Link></Nav.Item>
                   {ride.status === 'COMPLETED' && (<Nav.Item><Nav.Link eventKey="feedback">Feedback</Nav.Link></Nav.Item>)}
@@ -984,8 +429,8 @@ const RideDetailsPage = () => {
                                 {request.note && <div className="text-muted small mt-1">Note: {request.note}</div>}
                               </div>
                               <div className="d-flex gap-2 mt-2 mt-md-0">
-                                <Button variant="success" size="sm" onClick={() => handleAction('accept_request', { requestId: request.id })} disabled={actionLoading || rideLoading}>Accept</Button>
-                                <Button variant="danger" size="sm" onClick={() => handleAction('reject_request', { requestId: request.id })} disabled={actionLoading || rideLoading}>Reject</Button>
+                                <Button variant="success" size="sm" onClick={() => handleAction('accept_request', { requestId: request.id })} disabled={actionLoading || rideLoading || !ride}>Accept</Button>
+                                <Button variant="danger" size="sm" onClick={() => handleAction('reject_request', { requestId: request.id })} disabled={actionLoading || rideLoading || !ride}>Reject</Button>
                               </div>
                             </ListGroup.Item>
                           ))}
@@ -1004,6 +449,21 @@ const RideDetailsPage = () => {
                           <p className="mb-0">{ride.dropoffLocation?.address || 'N/A'}</p>
                         </div>
                         {/* Waypoints rendering */}
+                         {ride.waypoints && ride.waypoints.length > 0 && (
+                          <div className="mb-3">
+                            <h5 className="mb-2">
+                              <FaRoute className="text-success me-2" />
+                              Stops
+                            </h5>
+                            <ListGroup variant="flush">
+                              {ride.waypoints.map((waypoint, index) => (
+                                <ListGroup.Item key={index}>
+                                  {waypoint.address}
+                                </ListGroup.Item>
+                              ))}
+                            </ListGroup>
+                          </div>
+                        )}
                       </Col>
                       <Col md={6}>
                         <div className="mb-3">
@@ -1032,7 +492,8 @@ const RideDetailsPage = () => {
                     )}
                     {/* Status specific alerts */}
                     {isDriver && ride.status === 'IN_PROGRESS' && ( <Alert variant="info">Ride in progress. Complete it upon arrival.</Alert> )}
-                    {isRider && ride.status === 'IN_PROGRESS' && ( <Alert variant="info">Ride in progress. Driver will complete it upon arrival.</Alert> )}
+                    {/* Show rider status based on their *request* status if they have one */}
+                    {userRideRequest?.status === 'ACCEPTED' && ride.status === 'IN_PROGRESS' && ( <Alert variant="info">Your ride is in progress. Driver will complete it upon arrival.</Alert> )}
                     {ride.status === 'CANCELLED' && ( <Alert variant="warning"><strong>Cancellation Reason:</strong> {ride.cancelReason || 'No reason provided'}</Alert> )}
                     {userRideRequest?.status === 'PENDING' && ( <Alert variant="info">Your request to join this ride is pending driver approval.</Alert> )}
                     {userRideRequest?.status === 'REJECTED' && ( <Alert variant="danger">Your request to join this ride was rejected by the driver.</Alert> )}
@@ -1055,258 +516,115 @@ const RideDetailsPage = () => {
 
                   {ride.status === 'COMPLETED' && (
                     <Tab.Pane eventKey="feedback">
-                       {ride.rating ? ( /* Rating display */ <div>...</div> ) : ( /* No rating display */ <div>...</div> )}
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
+                       {/* Placeholder for Feedback content */}
+                       {ride.rating ? (
+                        <div>
+                          <div className="mb-3">
+                            <h5 className="mb-2">Rating</h5>
+                            <div className="d-flex align-items-center">
+                              {[...Array(5)].map((_, index) => (
+                                <FaStar
+                                  key={index}
+                                  className={index < ride.rating ? "text-warning" : "text-muted"}
+                                  size={24}
+                                />
+                              ))}
+                              <span className="ms-2">{ride.rating}/5</span>
+                            </div>
+                          </div>
+
+                          {ride.ratingComment && (
+                            <div className="mb-3">
+                              <h5 className="mb-2">Comment</h5>
+                              <Card className="bg-light">
+                                <Card.Body>
+                                  <p className="mb-0">{ride.ratingComment}</p>
+                                </Card.Body>
+                              </Card>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="text-center py-4">
+                          <FaStar size={48} className="text-muted mb-3" />
+                          <h5>No Rating Yet</h5>
+                          <p className="text-muted">
+                            {isRider ?
+                              "You haven't rated this ride yet. Please provide your feedback!" :
+                              "This ride hasn't been rated yet."
+                            }
+                          </p>
+
+                          {isRider && (
+                            <Button
+                              variant="primary"
+                              onClick={() => setShowRatingModal(true)}
+                              disabled={actionLoading || rideLoading || !ride} // Flicker fix
+                            >
+                              Rate this Ride
+                            </Button>
+                          )}
+                        </div>
+                      )}
                     </Tab.Pane>
                   )}
                 </Tab.Content>
               </Card.Body>
-<<<<<<< HEAD
-              
-              <Card.Footer>
-                <div className="d-flex flex-wrap gap-2 justify-content-between">
-                  <Button 
-                    variant="outline-secondary" 
-                    onClick={() => navigate(-1)}
-                  >
-                    Back
-                  </Button>
-                  
-                  <div className="d-flex gap-2">
-                    {/* Action buttons based on role and ride status */}
-                    {isDriver && ride.status === 'pending' && (
-                      <Button 
-                        variant="success"
-                        onClick={() => handleStatusChange('accept')}
-                        disabled={loading || rideLoading || !ride} // Add !ride check
-                      >
-                        Accept Request
-                      </Button>
-                    )}
-
-                    {isDriver && ride.status === 'accepted' && (
-                      <Button
-                        variant="primary"
-                        onClick={() => handleStatusChange('start')}
-                        disabled={loading || rideLoading || !ride} // Add !ride check
-                      >
-                        Start Ride
-                      </Button>
-                    )}
-
-                    {isDriver && ride.status === 'in_progress' && (
-                      <Button
-                        variant="success"
-                        onClick={() => handleStatusChange('complete')}
-                        disabled={loading || rideLoading || !ride} // Add !ride check
-                      >
-                        Complete Ride
-                      </Button>
-                    )}
-
-                    {isRider && ride.status === 'completed' && !ride.rating && (
-                      <Button
-                        variant="primary"
-                        onClick={() => setShowRatingModal(true)}
-                        disabled={loading || rideLoading || !ride} // Add !ride check
-                      >
-                        Rate this Ride
-                      </Button>
-                    )}
-                    
-                    {/* Cancel button for pending or accepted rides */}
-                    {(isDriver || isRider) && 
-                     (ride.status === 'pending' || ride.status === 'accepted') && (
-                      <Button
-                        variant="outline-danger"
-                        onClick={() => setShowCancelModal(true)}
-                        disabled={loading || rideLoading || !ride} // Add !ride check
-                      >
-                        Cancel Ride
-                      </Button>
-                    )}
-
-                    {/* Contact button for accepted or in_progress rides */}
-                    {(isDriver || isRider) &&
-                     (ride.status === 'accepted' || ride.status === 'in_progress') && (
-                      <Button
-                        variant="outline-primary"
-                        onClick={() => setShowContactModal(true)}
-                        disabled={loading || rideLoading || !ride} // Add !ride check
-                      >
-                        Contact {isDriver ? 'Passenger' : 'Driver'}
-                      </Button>
-                    )}
-=======
 
               <Card.Footer>
                 <div className="d-flex flex-wrap gap-2 justify-content-between">
                   <Button variant="outline-secondary" onClick={() => navigate(-1)}>Back</Button>
                   <div className="d-flex gap-2">
-                    {/* Action Buttons */}
-                     {/* Changed condition from 'ACCEPTED' to 'ACTIVE' for starting ride */}
-                     {isDriver && ride.status === 'ACTIVE' && ( <Button variant="primary" onClick={() => handleAction('start')} disabled={actionLoading || rideLoading}>Start Ride</Button> )}
-                     {isDriver && ride.status === 'IN_PROGRESS' && ( <Button variant="success" onClick={() => handleAction('complete')} disabled={actionLoading || rideLoading}>Complete Ride</Button> )}
-                     {isRider && ride.status === 'COMPLETED' && !ride.rating && ( <Button variant="primary" onClick={() => setShowRatingModal(true)}>Rate this Ride</Button> )}
-                     {(isDriver || isRider) && (ride.status === 'PENDING' || ride.status === 'ACCEPTED') && ( <Button variant="outline-danger" onClick={() => setShowCancelModal(true)}>Cancel Ride</Button> )}
-                     {(isDriver || isRider) && (ride.status === 'ACCEPTED' || ride.status === 'IN_PROGRESS') && ( <Button variant="outline-primary" onClick={() => setShowContactModal(true)}>Contact {isDriver ? 'Passenger' : 'Driver'}</Button> )}
-                     {canRequest && ( <Button variant="success" onClick={() => handleAction('request')} disabled={actionLoading || rideLoading}>Request This Ride</Button> )}
-                    {/* Request Status Badges */}
+                    {/* Action Buttons - Apply flicker fix and static text */}
+                     {/* Driver starts ride when it's ACTIVE (meaning offered and ready) */}
+                     {isDriver && ride.status === 'ACTIVE' && (
+                       <Button variant="primary" onClick={() => handleAction('start')} disabled={actionLoading || rideLoading || !ride}>
+                         {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+                         Start Ride
+                       </Button>
+                     )}
+                     {isDriver && ride.status === 'IN_PROGRESS' && (
+                       <Button variant="success" onClick={() => handleAction('complete')} disabled={actionLoading || rideLoading || !ride}>
+                         {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+                         Complete Ride
+                       </Button>
+                     )}
+                     {/* Rider can rate only if their request was accepted and ride is completed */}
+                     {userRideRequest?.status === 'ACCEPTED' && ride.status === 'COMPLETED' && !ride.rating && (
+                       <Button variant="primary" onClick={() => setShowRatingModal(true)} disabled={actionLoading || rideLoading || !ride}>
+                         Rate this Ride
+                       </Button>
+                     )}
+                     {/* Allow cancellation if ride is ACTIVE or user request is PENDING/ACCEPTED */}
+                     {(isDriver && ride.status === 'ACTIVE') || (userRideRequest && (userRideRequest.status === 'PENDING' || userRideRequest.status === 'ACCEPTED')) && ride.status !== 'IN_PROGRESS' && ride.status !== 'COMPLETED' && ride.status !== 'CANCELLED' && (
+                       <Button variant="outline-danger" onClick={() => setShowCancelModal(true)} disabled={actionLoading || rideLoading || !ride}>
+                         {isDriver ? 'Cancel Ride Offer' : 'Cancel Request'}
+                       </Button>
+                     )}
+                     {/* Contact button shown if request is accepted or ride is in progress */}
+                     {(userRideRequest?.status === 'ACCEPTED' || ride.status === 'IN_PROGRESS') && (
+                       <Button variant="outline-primary" onClick={() => setShowContactModal(true)} disabled={actionLoading || rideLoading || !ride}>
+                         Contact {isDriver ? 'Passenger' : 'Driver'}
+                       </Button>
+                     )}
+                     {/* Request button */}
+                     {canRequest && (
+                       <Button variant="success" onClick={() => handleAction('request_to_join')} disabled={actionLoading || rideLoading || !ride}>
+                         {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+                         Request This Ride
+                       </Button>
+                     )}
+                    {/* Request Status Badges for the current user */}
                     {userRideRequest && userRideRequest.status === 'PENDING' && ( <Badge bg="warning" className="p-2 align-self-center">Request Pending</Badge> )}
-                    {userRideRequest && userRideRequest.status === 'ACCEPTED' && ( <Badge bg="info" className="p-2 align-self-center">Ride Booked!</Badge> )}
+                    {userRideRequest && userRideRequest.status === 'ACCEPTED' && ride.status !== 'IN_PROGRESS' && ride.status !== 'COMPLETED' && ( <Badge bg="info" className="p-2 align-self-center">Ride Booked!</Badge> )}
                     {userRideRequest && userRideRequest.status === 'REJECTED' && ( <Badge bg="danger" className="p-2 align-self-center">Request Rejected</Badge> )}
                     {userRideRequest && userRideRequest.status === 'CANCELLED' && ( <Badge bg="secondary" className="p-2 align-self-center">Request Cancelled</Badge> )}
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                   </div>
                 </div>
               </Card.Footer>
             </Card>
           </Tab.Container>
         </Col>
-<<<<<<< HEAD
-        
-        {/* Sidebar with user information */}
-        <Col lg={4}>
-          <Card className="shadow-sm mb-4">
-            <Card.Body>
-              <h4 className="mb-3">
-                {isDriver ? 'Passenger' : 'Driver'} Information
-              </h4>
-              
-              <div className="d-flex align-items-center mb-3">
-                {(isDriver ? ride.rider : ride.driver)?.profilePicture ? (
-                  <img 
-                    src={(isDriver ? ride.rider : ride.driver).profilePicture} 
-                    alt="Profile" 
-                    className="rounded-circle me-3"
-                    style={{ width: '60px', height: '60px', objectFit: 'cover' }}
-                  />
-                ) : (
-                  <div 
-                    className="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3"
-                    style={{ width: '60px', height: '60px' }}
-                  >
-                    <FaUser className="text-white" size={24} />
-                  </div>
-                )}
-                
-                <div>
-                  <h5 className="mb-1">
-                    {(isDriver ? ride.rider : ride.driver)?.name || 'User'}
-                  </h5>
-                  <div className="d-flex align-items-center">
-                    <FaStar className="text-warning me-1" />
-                    <span>
-                      {(isDriver ? ride.rider : ride.driver)?.rating?.toFixed(1) || 'N/A'} 
-                      ({(isDriver ? ride.rider : ride.driver)?.ratingCount || 0} ratings)
-                    </span>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Vehicle details if showing driver */}
-              {!isDriver && ride.vehicle && (
-                <div className="mb-3">
-                  <h5 className="border-bottom pb-2 mb-2">Vehicle</h5>
-                  <p className="mb-1">
-                    <FaCar className="me-2 text-secondary" />
-                    <strong>Model:</strong> {ride.vehicle.model}
-                  </p>
-                  <p className="mb-1">
-                    <strong>Color:</strong> {ride.vehicle.color}
-                  </p>
-                  <p className="mb-0">
-                    <strong>License Plate:</strong> {ride.vehicle.licensePlate}
-                  </p>
-                </div>
-              )}
-              
-              {/* Contact information if ride is accepted or in progress */}
-              {(ride.status === 'accepted' || ride.status === 'in_progress') && (
-                <div>
-                  <h5 className="border-bottom pb-2 mb-2">Contact</h5>
-                  <Button 
-                    variant="outline-secondary" 
-                    className="d-flex align-items-center w-100 mb-2"
-                    href={`tel:${(isDriver ? ride.rider : ride.driver)?.phone || ''}`}
-                  >
-                    <FaPhoneAlt className="me-2" />
-                    Call
-                  </Button>
-                  <Button 
-                    variant="outline-secondary" 
-                    className="d-flex align-items-center w-100"
-                    href={`mailto:${(isDriver ? ride.rider : ride.driver)?.email || ''}`}
-                  >
-                    <FaEnvelope className="me-2" />
-                    Email
-                  </Button>
-                </div>
-              )}
-            </Card.Body>
-          </Card>
-          
-          {/* Tips and reminders card */}
-          <Card className="shadow-sm">
-            <Card.Body>
-              <h5 className="mb-3">Tips & Reminders</h5>
-              
-              <ListGroup variant="flush">
-                <ListGroup.Item className="px-0 border-0">
-                  <div className="d-flex">
-                    <div className="me-3">
-                      <FaCheckCircle className="text-success" size={20} />
-                    </div>
-                    <div>
-                      <strong>Be on time</strong>
-                      <p className="mb-0 text-muted small">
-                        Arrive at the pickup location a few minutes early.
-                      </p>
-                    </div>
-                  </div>
-                </ListGroup.Item>
-                
-                <ListGroup.Item className="px-0 border-0">
-                  <div className="d-flex">
-                    <div className="me-3">
-                      <FaCheckCircle className="text-success" size={20} />
-                    </div>
-                    <div>
-                      <strong>Communicate clearly</strong>
-                      <p className="mb-0 text-muted small">
-                        Keep your phone handy and notify about any changes or delays.
-                      </p>
-                    </div>
-                  </div>
-                </ListGroup.Item>
-                
-                <ListGroup.Item className="px-0 border-0">
-                  <div className="d-flex">
-                    <div className="me-3">
-                      <FaCheckCircle className="text-success" size={20} />
-                    </div>
-                    <div>
-                      <strong>Be respectful</strong>
-                      <p className="mb-0 text-muted small">
-                        Remember you're sharing a ride with community members.
-                      </p>
-                    </div>
-                  </div>
-                </ListGroup.Item>
-                
-                <ListGroup.Item className="px-0 border-0">
-                  <div className="d-flex">
-                    <div className="me-3">
-                      <FaTimesCircle className="text-danger" size={20} />
-                    </div>
-                    <div>
-                      <strong>Avoid cancellations</strong>
-                      <p className="mb-0 text-muted small">
-                        Only cancel if absolutely necessary, and provide notice.
-                      </p>
-                    </div>
-                  </div>
-=======
 
         <Col lg={4}>
            {/* Sidebar */}
@@ -1318,15 +636,15 @@ const RideDetailsPage = () => {
                 <>
                   <div className="d-flex align-items-center mb-3">
                     {ride.driver.profilePicture ? (
-                      <img 
-                        src={ride.driver.profilePicture} 
-                        alt={ride.driver.name} 
-                        className="rounded-circle me-3" 
-                        style={{ width: '60px', height: '60px', objectFit: 'cover' }} 
+                      <img
+                        src={ride.driver.profilePicture}
+                        alt={ride.driver.name}
+                        className="rounded-circle me-3"
+                        style={{ width: '60px', height: '60px', objectFit: 'cover' }}
                       />
                     ) : (
-                      <div 
-                        className="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3" 
+                      <div
+                        className="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3"
                         style={{ width: '60px', height: '60px' }}
                       >
                         <FaUser size={24} className="text-white" />
@@ -1352,12 +670,13 @@ const RideDetailsPage = () => {
                     </div>
                   )}
                   {/* Add Contact Button if applicable */}
-                  {(ride.status === 'ACCEPTED' || ride.status === 'IN_PROGRESS') && !isDriver && (
-                    <Button 
-                      variant="outline-primary" 
-                      size="sm" 
-                      className="mt-3 w-100" 
+                  {(userRideRequest?.status === 'ACCEPTED' || ride.status === 'IN_PROGRESS') && !isDriver && (
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      className="mt-3 w-100"
                       onClick={() => setShowContactModal(true)}
+                      disabled={actionLoading || rideLoading || !ride} // Flicker fix
                     >
                       Contact Driver
                     </Button>
@@ -1391,7 +710,6 @@ const RideDetailsPage = () => {
                 <ListGroup.Item>
                   <FaStar className="me-2 text-primary" />
                   Remember to rate your {isDriver ? 'passenger' : 'driver'} after the ride is completed to help the community.
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
@@ -1399,29 +717,14 @@ const RideDetailsPage = () => {
         </Col>
       </Row>
 
-<<<<<<< HEAD
-      {/* --- Add Request Button Logic Here --- */}
-      {currentUser && !isDriver && !isRider && ride && ride.status === 'pending' && (ride.passengers < ride.maxPassengers) && (
-        <div className="text-end mt-4"> {/* Position it */}
-          <Button
-            variant="success"
-            size="lg"
-            onClick={handleRequestRide}
-            disabled={loading || rideLoading || !ride} // Disable while loading or if ride data is missing
-          >
-            {(loading || rideLoading) && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
-            Request This Ride
-          </Button>
-        </div>
-      )}
-      
+      {/* Modals */}
       {/* Cancel Ride Modal */}
       <Modal show={showCancelModal} onHide={() => setShowCancelModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Cancel Ride</Modal.Title>
+          <Modal.Title>Cancel {isDriver ? 'Ride Offer' : 'Request'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Are you sure you want to cancel this ride? This action cannot be undone.</p>
+          <p>Are you sure you want to cancel? This action cannot be undone.</p>
           <Form.Group className="mb-3">
             <Form.Label>Reason for cancellation</Form.Label>
             <Form.Control
@@ -1429,8 +732,8 @@ const RideDetailsPage = () => {
               rows={3}
               value={cancelReason}
               onChange={(e) => setCancelReason(e.target.value)}
-              placeholder="Please provide a reason for cancellation"
-              required
+              placeholder="Please provide a reason (optional for requests)"
+              required={isDriver} // Reason required only if driver cancels offer
             />
           </Form.Group>
         </Modal.Body>
@@ -1438,20 +741,20 @@ const RideDetailsPage = () => {
           <Button variant="secondary" onClick={() => setShowCancelModal(false)}>
             Close
           </Button>
-          <Button 
+          <Button
             variant="danger"
-            onClick={() => handleStatusChange('cancel', { reason: cancelReason })}
-            disabled={!cancelReason.trim() || loading || rideLoading || !ride} // Add !ride check
+            onClick={() => handleAction('cancel', { reason: cancelReason })}
+            disabled={ (isDriver && !cancelReason.trim()) || actionLoading || rideLoading || !ride } // Flicker fix + reason check for driver
           >
-            {(loading || rideLoading) && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+            {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
             Confirm Cancellation
           </Button>
         </Modal.Footer>
       </Modal>
-      
+
       {/* Rating Modal */}
       <Modal show={showRatingModal} onHide={() => setShowRatingModal(false)} centered>
-        <Modal.Header closeButton>
+         <Modal.Header closeButton>
           <Modal.Title>Rate Your Ride</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -1476,7 +779,7 @@ const RideDetailsPage = () => {
               {rating === 5 && "Excellent"}
             </p>
           </div>
-          
+
           <Form.Group className="mb-3">
             <Form.Label>Additional Comments (Optional)</Form.Label>
             <Form.Control
@@ -1492,109 +795,84 @@ const RideDetailsPage = () => {
           <Button variant="secondary" onClick={() => setShowRatingModal(false)}>
             Cancel
           </Button>
-          <Button 
+          <Button
             variant="primary"
-            onClick={() => handleStatusChange('rate', { rating, comment: ratingComment })}
-            disabled={loading || rideLoading || !ride} // Add !ride check
+            onClick={() => handleAction('rate', { rating, comment: ratingComment })}
+            disabled={actionLoading || rideLoading || !ride} // Flicker fix
           >
-            {(loading || rideLoading) && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+            {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
             Submit Rating
           </Button>
         </Modal.Footer>
       </Modal>
-      
+
       {/* Contact Modal */}
       <Modal show={showContactModal} onHide={() => setShowContactModal(false)} centered>
-        <Modal.Header closeButton>
+         <Modal.Header closeButton>
           <Modal.Title>
             Contact {isDriver ? 'Passenger' : 'Driver'}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {/* Simplified Contact Info - Adapt based on available data */}
           <div className="d-flex align-items-center mb-4">
-            {(isDriver ? ride.rider : ride.driver)?.profilePicture ? (
-              <img 
-                src={(isDriver ? ride.rider : ride.driver).profilePicture} 
-                alt="Profile" 
+             {/* Profile Pic */}
+             {(isDriver ? ride.requests?.find(r=>r.status === 'ACCEPTED')?.passenger : ride.driver)?.profilePicture ? (
+              <img
+                src={(isDriver ? ride.requests?.find(r=>r.status === 'ACCEPTED')?.passenger : ride.driver).profilePicture}
+                alt="Profile"
                 className="rounded-circle me-3"
                 style={{ width: '60px', height: '60px', objectFit: 'cover' }}
               />
             ) : (
-              <div 
+              <div
                 className="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3"
                 style={{ width: '60px', height: '60px' }}
               >
                 <FaUser className="text-white" size={24} />
               </div>
             )}
-            
+            {/* Name & Rating */}
             <div>
               <h5 className="mb-1">
-                {(isDriver ? ride.rider : ride.driver)?.name || 'User'}
+                {(isDriver ? ride.requests?.find(r=>r.status === 'ACCEPTED')?.passenger : ride.driver)?.name || 'User'}
               </h5>
-              <div className="d-flex align-items-center">
+               <div className="d-flex align-items-center">
                 <FaStar className="text-warning me-1" />
                 <span>
-                  {(isDriver ? ride.rider : ride.driver)?.rating?.toFixed(1) || 'N/A'}
+                  {(isDriver ? ride.requests?.find(r=>r.status === 'ACCEPTED')?.passenger : ride.driver)?.rating?.toFixed(1) || 'N/A'}
                 </span>
               </div>
             </div>
           </div>
-          
+
           <div className="mb-4">
+             {/* Phone */}
             <div className="d-flex align-items-center mb-3">
-              <div className="me-3">
-                <FaPhoneAlt className="text-primary" size={20} />
-              </div>
-              <div>
-                <p className="mb-0">
-                  {(isDriver ? ride.rider : ride.driver)?.phone || 'No phone number available'}
-                </p>
-              </div>
+              <div className="me-3"><FaPhoneAlt className="text-primary" size={20} /></div>
+              <div><p className="mb-0">{(isDriver ? ride.requests?.find(r=>r.status === 'ACCEPTED')?.passenger : ride.driver)?.phone || 'No phone number available'}</p></div>
             </div>
-            
+             {/* Email */}
             <div className="d-flex align-items-center">
-              <div className="me-3">
-                <FaEnvelope className="text-primary" size={20} />
-              </div>
-              <div>
-                <p className="mb-0">
-                  {(isDriver ? ride.rider : ride.driver)?.email || 'No email available'}
-                </p>
-              </div>
+              <div className="me-3"><FaEnvelope className="text-primary" size={20} /></div>
+              <div><p className="mb-0">{(isDriver ? ride.requests?.find(r=>r.status === 'ACCEPTED')?.passenger : ride.driver)?.email || 'No email available'}</p></div>
             </div>
           </div>
-          
+
           <Form.Group className="mb-3">
             <Form.Label>Send a Message</Form.Label>
             <div className="input-group">
-              <Form.Control
-                type="text"
-                placeholder="Type your message here..."
-              />
-              <Button variant="primary">
-                <FaComment className="me-2" />
-                Send
-              </Button>
+              <Form.Control type="text" placeholder="Type your message here..." />
+              <Button variant="primary"><FaComment className="me-2" />Send</Button>
             </div>
-            <Form.Text className="text-muted">
-              This feature is for demonstration purposes only.
-            </Form.Text>
+            <Form.Text className="text-muted">This feature is for demonstration purposes only.</Form.Text>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowContactModal(false)}>
-            Close
-          </Button>
+          <Button variant="secondary" onClick={() => setShowContactModal(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
-=======
-      {/* Modals */}
-      <Modal show={showCancelModal} onHide={() => setShowCancelModal(false)} centered> {/* ... Cancel Modal ... */} </Modal>
-      <Modal show={showRatingModal} onHide={() => setShowRatingModal(false)} centered> {/* ... Rating Modal ... */} </Modal>
-      <Modal show={showContactModal} onHide={() => setShowContactModal(false)} centered> {/* ... Contact Modal ... */} </Modal>
 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     </Container>
   );
 };
