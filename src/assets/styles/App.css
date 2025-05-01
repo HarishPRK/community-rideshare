@@ -1,12 +1,7 @@
 /* Enhanced App.css for Community RideShare */
 
-<<<<<<< HEAD
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-=======
 /* Import Google Fonts - Changed to Roboto */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 
 /* Root Variables */
 :root {
@@ -24,38 +19,30 @@
   --warning-color: #ffcc00;
   --info-color: #5ac8fa;
   --success-color: #34c759;
-  
+
   --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
   --box-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  
+
   --border-radius: 0.5rem;
   --border-radius-sm: 0.375rem;
   --border-radius-lg: 0.75rem;
   --border-radius-xl: 1rem;
-  
+
   --transition: all 0.3s ease;
 }
 
 /* General Styles */
 body {
-<<<<<<< HEAD
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  color: var(--dark-color);
-  background-color: #fbfbfd;
-  line-height: 1.6;
-  overflow-x: hidden;
-=======
   margin: 0; /* Ensure no default body margin */
   /* Changed font-family to Roboto */
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   color: var(--dark-color);
   /* Added a subtle gradient background for glassmorphism */
-  background: linear-gradient(120deg, #e0f0ff 0%, #f8fafc 100%); 
+  background: linear-gradient(120deg, #e0f0ff 0%, #f8fafc 100%);
   line-height: 1.6;
   overflow-x: hidden;
   min-height: 100vh; /* Ensure gradient covers full height */
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 }
 
 /* Typography */
@@ -184,20 +171,6 @@ html {
   font-size: 1.1rem;
 }
 
-<<<<<<< HEAD
-/* Cards */
-.card {
-  border: none;
-  border-radius: var(--border-radius-lg);
-  transition: var(--transition);
-  overflow: hidden;
-  box-shadow: var(--box-shadow-sm);
-}
-
-.card:hover {
-  box-shadow: var(--box-shadow);
-  transform: translateY(-5px);
-=======
 /* Cards & Glass Elements - Applying Glassmorphism (Further Enhanced) */
 .card, .glass-effect { /* Added .glass-effect class for broader application */
   /* Glassmorphism styles */
@@ -205,7 +178,7 @@ html {
   backdrop-filter: blur(18px); /* Even more blur */
   -webkit-backdrop-filter: blur(18px); /* Safari prefix */
   border: 1px solid rgba(255, 255, 255, 0.12); /* Adjusted border */
-  
+
   border-radius: var(--border-radius-lg);
   transition: var(--transition);
   overflow: hidden; /* Important for backdrop-filter */
@@ -216,7 +189,6 @@ html {
   box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2); /* Enhanced hover shadow */
   transform: translateY(-5px);
   background-color: rgba(255, 255, 255, 0.5); /* Adjusted hover background */
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 }
 
 .card-body {
@@ -277,16 +249,12 @@ html {
 
 /* Features Section */
 .features-section {
-<<<<<<< HEAD
-  padding: 6rem 0;
-=======
   padding: 8rem 0; /* Increased padding */
   background-color: rgba(255, 255, 255, 0.3); /* Subtle background tint */
 }
 
 .features-section .row {
   margin-top: -30px;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 }
 
 .features-section .card {
@@ -320,14 +288,9 @@ html {
 
 /* How It Works Section */
 .how-it-works-section {
-<<<<<<< HEAD
-  background-color: var(--light-color);
-  padding: 6rem 0;
-=======
   /* Using a subtle gradient */
-  background: linear-gradient(180deg, rgba(248, 250, 252, 0.7) 0%, rgba(233, 236, 239, 0.5) 100%); 
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.7) 0%, rgba(233, 236, 239, 0.5) 100%);
   padding: 8rem 0; /* Increased padding */
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   position: relative;
 }
 
@@ -342,25 +305,15 @@ html {
 
 /* Testimonial Section */
 .testimonials-section {
-<<<<<<< HEAD
-  padding: 6rem 0;
-  background-color: white;
-}
-
-.testimonial-carousel {
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--box-shadow);
-  overflow: hidden;
-=======
   padding: 8rem 0; /* Increased padding */
   /* Added subtle top border for separation */
-  border-top: 1px solid rgba(0, 0, 0, 0.05); 
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
   /* Removed background color, will rely on body background */
 }
 
 .testimonial-carousel {
   /* Apply enhanced glass effect directly to the carousel */
-  background-color: rgba(255, 255, 255, 0.4); 
+  background-color: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -373,7 +326,6 @@ html {
 .testimonial-carousel:hover {
    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
    background-color: rgba(255, 255, 255, 0.5);
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 }
 
 .testimonial-carousel .carousel-item {
@@ -403,11 +355,8 @@ html {
   padding: 5rem 0;
   position: relative;
   overflow: hidden;
-<<<<<<< HEAD
-=======
   margin-bottom: 40px;
   border-radius: 20px;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 }
 
 .cta-section::before {
@@ -593,15 +542,15 @@ footer .social-icons a:hover {
   .hero-section {
     text-align: center;
   }
-  
+
   .features-section {
     padding: 4rem 0;
   }
-  
+
   .how-it-works-section {
     padding: 4rem 0;
   }
-  
+
   .testimonials-section {
     padding: 4rem 0;
   }
@@ -611,15 +560,15 @@ footer .social-icons a:hover {
   .hero-section {
     min-height: 500px;
   }
-  
+
   .navbar {
     padding: 0.75rem 0;
   }
-  
+
   .navbar-brand {
     font-size: 1.25rem;
   }
-  
+
   .display-4 {
     font-size: 2.5rem;
   }
@@ -629,11 +578,11 @@ footer .social-icons a:hover {
   .hero-section {
     min-height: 450px;
   }
-  
+
   .display-4 {
     font-size: 2rem;
   }
-  
+
   .btn-lg {
     padding: 0.5rem 1.5rem;
     font-size: 1rem;
@@ -766,11 +715,11 @@ footer .social-icons a:hover {
     min-height: auto;
     padding: 6rem 0;
   }
-  
+
   .hero-section h1 {
     font-size: 2.5rem;
   }
-  
+
   .hero-section .card {
     margin-top: 3rem;
   }
@@ -780,16 +729,16 @@ footer .social-icons a:hover {
   .hero-section h1 {
     font-size: 2rem;
   }
-  
+
   .hero-section .lead {
     font-size: 1.1rem;
   }
-  
+
   .features-section {
     padding-top: 4rem;
     padding-bottom: 4rem;
   }
-  
+
   .features-section h2.display-5 {
     font-size: 2.25rem;
   }
@@ -844,11 +793,8 @@ footer .social-icons a:hover {
   margin-bottom: 5rem;
 }
 
-<<<<<<< HEAD
-=======
 /* Ensure the main container for the homepage has no top margin/padding */
 .home-page {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
