@@ -226,17 +226,16 @@ export const rideService = {
   },
 
   /**
-   * Request to join an existing ride as a passenger.
-   * @param {string} rideId - The ID of the ride to join.
-   * @param {object} [joinData={}] - Optional data like passengerCount, note.
+   * Request to join an existing ride as a passenger (or create a standalone request - endpoint seems overloaded)
+   * @param {Object} requestData - Data for the request (may include rideId for joining, or full details for new request)
    * @returns {Promise} Promise resolving to API response
    */
-  requestToJoin: async (rideId, joinData = {}) => { // Renamed and added rideId parameter
+  requestRide: async (requestData) => { // Reverted rename back to requestRide
     try {
-      const payload = { rideId, ...joinData }; // Construct payload including rideId
-      console.log('API Service - Requesting to join ride with URL:', `${API_URL}/rides/request`, 'and payload:', payload);
-      const response = await axios.post(`${API_URL}/rides/request`, payload); // Send payload with rideId
-      console.log('API Service - Join ride request response:', response.data);
+      // Reverted endpoint back to /rides/request as per backend routes
+      console.log('API Service - Requesting ride with URL:', `${API_URL}/rides/request`, 'and data:', requestData);
+      const response = await axios.post(`${API_URL}/rides/request`, requestData); // Sends original requestData
+      console.log('API Service - Ride request response:', response.data);
       return response.data;
     } catch (error) {
       console.error('API Service - Ride request error:', error);
