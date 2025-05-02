@@ -73,7 +73,16 @@ const RideDetailsPage = () => {
   const [ride, setRide] = useState(null);
   const [error, setError] = useState(''); // Local error state for actions
   const [loading, setLoading] = useState(true); // Local loading for initial fetch
-  const [actionLoading, setActionLoading] = useState(false); // Separate loading state for actions
+  const [actionLoading, setActionLoading] = useState(false); // General loading state for actions
+  
+  // Button-specific loading states to prevent flickering
+  const [startRideLoading, setStartRideLoading] = useState(false);
+  const [completeRideLoading, setCompleteRideLoading] = useState(false);
+  const [requestRideLoading, setRequestRideLoading] = useState(false);
+  const [acceptRequestLoading, setAcceptRequestLoading] = useState(false);
+  const [rejectRequestLoading, setRejectRequestLoading] = useState(false);
+  const [cancelRideLoading, setCancelRideLoading] = useState(false);
+  const [rateRideLoading, setRateRideLoading] = useState(false);
   const [directions, setDirections] = useState(null);
   const [successMessage, setSuccessMessage] = useState(location.state?.success ? "Operation successful!" : "");
 
@@ -204,11 +213,44 @@ const RideDetailsPage = () => {
     setError('');
     setActionLoading(true);
     setSuccessMessage('');
+    
+    // Set action-specific loading state
+    const setActionSpecificLoading = (isLoading) => {
+      switch (action) {
+        case 'start':
+          setStartRideLoading(isLoading);
+          break;
+        case 'complete':
+          setCompleteRideLoading(isLoading);
+          break;
+        case 'request_to_join':
+          setRequestRideLoading(isLoading);
+          break;
+        case 'accept_request':
+          setAcceptRequestLoading(isLoading);
+          break;
+        case 'reject_request':
+          setRejectRequestLoading(isLoading);
+          break;
+        case 'cancel':
+          setCancelRideLoading(isLoading);
+          break;
+        case 'rate':
+          setRateRideLoading(isLoading);
+          break;
+        default:
+          break;
+      }
+    };
+    
+    // Set the specific loading state to true
+    setActionSpecificLoading(true);
 
     const apiFunction = getApiFunction(rideContext, action);
     if (!apiFunction) {
         setError(`Action "${action}" is not implemented in context.`);
         setActionLoading(false);
+        setActionSpecificLoading(false);
         return;
     }
 
@@ -285,6 +327,8 @@ const RideDetailsPage = () => {
       console.error(`Error performing action ${action}:`, err);
     } finally {
       setActionLoading(false);
+      // Reset the specific loading state
+      setActionSpecificLoading(false);
     }
   };
 
@@ -429,8 +473,14 @@ const RideDetailsPage = () => {
                                 {request.note && <div className="text-muted small mt-1">Note: {request.note}</div>}
                               </div>
                               <div className="d-flex gap-2 mt-2 mt-md-0">
-                                <Button variant="success" size="sm" onClick={() => handleAction('accept_request', { requestId: request.id })} disabled={actionLoading || rideLoading || !ride}>Accept</Button>
-                                <Button variant="danger" size="sm" onClick={() => handleAction('reject_request', { requestId: request.id })} disabled={actionLoading || rideLoading || !ride}>Reject</Button>
+                                <Button variant="success" size="sm" onClick={() => handleAction('accept_request', { requestId: request.id })} disabled={acceptRequestLoading || rideLoading || !ride}>
+                                  {acceptRequestLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+                                  Accept
+                                </Button>
+                                <Button variant="danger" size="sm" onClick={() => handleAction('reject_request', { requestId: request.id })} disabled={rejectRequestLoading || rideLoading || !ride}>
+                                  {rejectRequestLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+                                  Reject
+                                </Button>
                               </div>
                             </ListGroup.Item>
                           ))}
@@ -578,26 +628,26 @@ const RideDetailsPage = () => {
                     {/* Action Buttons - Apply flicker fix and static text */}
                      {/* Driver starts ride when it's ACTIVE (meaning offered and ready) */}
                      {isDriver && ride.status === 'ACTIVE' && (
-                       <Button variant="primary" onClick={() => handleAction('start')} disabled={actionLoading || rideLoading || !ride}>
-                         {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+                       <Button variant="primary" onClick={() => handleAction('start')} disabled={startRideLoading || rideLoading || !ride}>
+                         {startRideLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
                          Start Ride
                        </Button>
                      )}
                      {isDriver && ride.status === 'IN_PROGRESS' && (
-                       <Button variant="success" onClick={() => handleAction('complete')} disabled={actionLoading || rideLoading || !ride}>
-                         {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+                       <Button variant="success" onClick={() => handleAction('complete')} disabled={completeRideLoading || rideLoading || !ride}>
+                         {completeRideLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
                          Complete Ride
                        </Button>
                      )}
                      {/* Rider can rate only if their request was accepted and ride is completed */}
                      {userRideRequest?.status === 'ACCEPTED' && ride.status === 'COMPLETED' && !ride.rating && (
-                       <Button variant="primary" onClick={() => setShowRatingModal(true)} disabled={actionLoading || rideLoading || !ride}>
+                       <Button variant="primary" onClick={() => setShowRatingModal(true)} disabled={rateRideLoading || rideLoading || !ride}>
                          Rate this Ride
                        </Button>
                      )}
                      {/* Allow cancellation if ride is ACTIVE or user request is PENDING/ACCEPTED */}
                      {(isDriver && ride.status === 'ACTIVE') || (userRideRequest && (userRideRequest.status === 'PENDING' || userRideRequest.status === 'ACCEPTED')) && ride.status !== 'IN_PROGRESS' && ride.status !== 'COMPLETED' && ride.status !== 'CANCELLED' && (
-                       <Button variant="outline-danger" onClick={() => setShowCancelModal(true)} disabled={actionLoading || rideLoading || !ride}>
+                       <Button variant="outline-danger" onClick={() => setShowCancelModal(true)} disabled={cancelRideLoading || rideLoading || !ride}>
                          {isDriver ? 'Cancel Ride Offer' : 'Cancel Request'}
                        </Button>
                      )}
@@ -609,8 +659,8 @@ const RideDetailsPage = () => {
                      )}
                      {/* Request button */}
                      {canRequest && (
-                       <Button variant="success" onClick={() => handleAction('request_to_join')} disabled={actionLoading || rideLoading || !ride}>
-                         {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+                       <Button variant="success" onClick={() => handleAction('request_to_join')} disabled={requestRideLoading || rideLoading || !ride}>
+                         {requestRideLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
                          Request This Ride
                        </Button>
                      )}
@@ -744,9 +794,9 @@ const RideDetailsPage = () => {
           <Button
             variant="danger"
             onClick={() => handleAction('cancel', { reason: cancelReason })}
-            disabled={ (isDriver && !cancelReason.trim()) || actionLoading || rideLoading || !ride } // Flicker fix + reason check for driver
+            disabled={ (isDriver && !cancelReason.trim()) || cancelRideLoading || rideLoading || !ride } // Flicker fix + reason check for driver
           >
-            {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+            {cancelRideLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
             Confirm Cancellation
           </Button>
         </Modal.Footer>
@@ -798,9 +848,9 @@ const RideDetailsPage = () => {
           <Button
             variant="primary"
             onClick={() => handleAction('rate', { rating, comment: ratingComment })}
-            disabled={actionLoading || rideLoading || !ride} // Flicker fix
+            disabled={rateRideLoading || rideLoading || !ride} // Use specific loading state
           >
-            {actionLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
+            {rateRideLoading && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />}
             Submit Rating
           </Button>
         </Modal.Footer>
