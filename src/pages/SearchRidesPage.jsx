@@ -249,8 +249,8 @@ const SearchRidesPage = () => {
     // Default center if no results
     let center = { lat: 37.7749, lng: -122.4194 }; // Default to San Francisco
     
-    // Center on first result if available
-    if (searchResults.length > 0 && searchResults[0].pickupLocation) {
+    // Center on first result if available and has coordinates
+    if (searchResults.length > 0 && searchResults[0].pickupLocation?.latitude && searchResults[0].pickupLocation?.longitude) {
       center = {
         lat: searchResults[0].pickupLocation.latitude,
         lng: searchResults[0].pickupLocation.longitude
@@ -269,12 +269,14 @@ const SearchRidesPage = () => {
             fullscreenControl: true,
           }}
         >
-          {/* Render markers for each ride */}
-          {searchResults.map((ride) => (
+          {/* Render markers for each ride - Added check for coordinates */}
+          {searchResults
+            .filter(ride => ride.pickupLocation?.latitude && ride.pickupLocation?.longitude) // Only render markers with valid coords
+            .map((ride) => (
             <Marker
               key={ride.id}
               position={{
-                lat: ride.pickupLocation.latitude,
+                lat: ride.pickupLocation.latitude, 
                 lng: ride.pickupLocation.longitude
               }}
               onClick={() => handleMarkerClick(ride)}
@@ -285,8 +287,8 @@ const SearchRidesPage = () => {
             />
           ))}
           
-          {/* InfoWindow for selected ride */}
-          {selectedRide && (
+          {/* InfoWindow for selected ride - Added check for coordinates */}
+          {selectedRide && selectedRide.pickupLocation?.latitude && selectedRide.pickupLocation?.longitude && (
             <InfoWindow
               position={{
                 lat: selectedRide.pickupLocation.latitude,
@@ -295,7 +297,8 @@ const SearchRidesPage = () => {
               onCloseClick={() => setSelectedRide(null)}
             >
               <div style={{ width: '250px' }}>
-                <h6 className="mb-1">Ride by {selectedRide.driver?.name || 'Driver'}</h6>
+                {/* Added optional chaining */}
+                <h6 className="mb-1">Ride by {selectedRide.driver?.name || 'Driver'}</h6> 
                 <div className="mb-2 small d-flex align-items-center">
                   <div className="text-warning me-1">
                     <FaStar />
@@ -308,7 +311,8 @@ const SearchRidesPage = () => {
                       <FaMapMarkerAlt className="text-success" />
                     </div>
                     <div className="text-truncate">
-                      <strong>From:</strong> {selectedRide.pickupLocation.address}
+                      {/* Added optional chaining */}
+                      <strong>From:</strong> {selectedRide.pickupLocation?.address || 'N/A'} 
                     </div>
                   </div>
                 </div>
@@ -318,7 +322,8 @@ const SearchRidesPage = () => {
                       <FaMapMarkerAlt className="text-danger" />
                     </div>
                     <div className="text-truncate">
-                      <strong>To:</strong> {selectedRide.dropoffLocation.address}
+                      {/* Added optional chaining */}
+                      <strong>To:</strong> {selectedRide.dropoffLocation?.address || 'N/A'} 
                     </div>
                   </div>
                 </div>
@@ -328,7 +333,8 @@ const SearchRidesPage = () => {
                 </div>
                 <div className="small mb-2">
                   <FaMoneyBillWave className="me-1 text-success" />
-                  ${selectedRide.price.toFixed(2)}
+                  {/* Added check for price */}
+                  ${selectedRide.price?.toFixed(2) || 'N/A'} 
                 </div>
                 <Link to={`/rides/${selectedRide.id}`} className="btn btn-sm btn-primary w-100">
                   View Details
@@ -585,7 +591,8 @@ const SearchRidesPage = () => {
                             </div>
                             <div className="border-start ps-2 ms-2 flex-grow-1">
                               <div className="text-muted small">Pickup</div>
-                              <div>{ride.pickupLocation.address}</div>
+                              {/* Added optional chaining */}
+                              <div>{ride.pickupLocation?.address || 'N/A'}</div> 
                             </div>
                           </div>
                           
@@ -597,7 +604,8 @@ const SearchRidesPage = () => {
                             </div>
                             <div className="border-start ps-2 ms-2 flex-grow-1">
                               <div className="text-muted small">Dropoff</div>
-                              <div>{ride.dropoffLocation.address}</div>
+                              {/* Added optional chaining */}
+                              <div>{ride.dropoffLocation?.address || 'N/A'}</div> 
                             </div>
                           </div>
                         </div>
@@ -608,7 +616,8 @@ const SearchRidesPage = () => {
                           <div className="text-muted small">Price</div>
                           <div className="d-flex align-items-center">
                             <FaMoneyBillWave className="text-success me-1" />
-                            <span className="fw-bold">${ride.price.toFixed(2)}</span>
+                            {/* Added check for price existence */}
+                            <span className="fw-bold">${ride.price?.toFixed(2) || 'N/A'}</span> 
                           </div>
                         </div>
                         
@@ -651,12 +660,15 @@ const SearchRidesPage = () => {
                             </div>
                           )}
                           <div>
-                            <div>{ride.driver?.name || 'Driver'}</div>
+                            {/* Added optional chaining */}
+                            <div>{ride.driver?.name || 'Driver'}</div> 
                             <div className="d-flex align-items-center">
                               <FaStar className="text-warning me-1" />
-                              <span>{ride.driver?.rating?.toFixed(1) || 'N/A'}</span>
+                              {/* Added optional chaining */}
+                              <span>{ride.driver?.rating?.toFixed(1) || 'N/A'}</span> 
                               <span className="text-muted ms-1">
-                                ({ride.driver?.ratingCount || 0})
+                                {/* Added optional chaining */}
+                                ({ride.driver?.ratingCount || 0}) 
                               </span>
                             </div>
                           </div>
@@ -667,7 +679,8 @@ const SearchRidesPage = () => {
                             <div className="d-flex align-items-center text-muted">
                               <FaCar className="me-1" />
                               <span>
-                                {ride.vehicle.color} {ride.vehicle.model}
+                                {/* Added optional chaining */}
+                                {ride.vehicle?.color || ''} {ride.vehicle?.model || ''} 
                               </span>
                             </div>
                           </div>
