@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 This is a Readme file for the Frontend part of Community Ridesharing Application. 
 
 All frontend related information will be available for reference here
@@ -75,4 +74,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 =======
 # community-rideshare
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
