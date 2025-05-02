@@ -754,7 +754,7 @@ const RideDetailsPage = () => {
                       size="sm"
                       className="mt-3 w-100"
                       onClick={() => setShowContactModal(true)}
-                      disabled={actionLoading || rideLoading || !ride} // Flicker fix
+                      disabled={rideLoading || !ride} // Removed actionLoading check
                     >
                       Contact Driver
                     </Button>
