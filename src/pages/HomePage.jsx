@@ -104,23 +104,14 @@ const HomePage = () => {
     <div className="home-page">
       {/* Hero Section */}
       <div 
-<<<<<<< HEAD
-        className="hero-section py-5 bg-primary text-white position-relative"
-=======
         className="hero-section bg-primary text-white position-relative"
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
         style={{
           background: `linear-gradient(rgba(0, 123, 255, 0.8), rgba(0, 123, 255, 0.9))`,
           minHeight: '500px'
         }}
       >
-<<<<<<< HEAD
-        <Container className="py-5">
-          <Row className="align-items-center py-5">
-=======
         <Container className="pb-5">
           <Row className="align-items-center pb-4">
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
             <Col lg={6} className="text-center text-lg-start">
               <h1 className="display-4 fw-bold mb-4">Community-Driven<br />Ride Sharing</h1>
               <p className="lead mb-4">
@@ -178,30 +169,16 @@ const HomePage = () => {
                   <h3 className="text-dark mb-4">Find a Ride Nearby</h3>
                   <Form onSubmit={handleSearch}>
                     <InputGroup className="mb-3">
-<<<<<<< HEAD
-                      <InputGroup.Text>
-                        <FaMapMarkerAlt />
-                      </InputGroup.Text>
-                      <Form.Control
-                        placeholder="Enter your location"
-=======
                       <InputGroup.Text className="bg-primary text-white">
                         <FaMapMarkerAlt />
                       </InputGroup.Text>
                       <Form.Control
                         placeholder="Enter your starting point"
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                         value={searchLocation}
                         onChange={(e) => setSearchLocation(e.target.value)}
                         required
                       />
                     </InputGroup>
-<<<<<<< HEAD
-                    <Button 
-                      type="submit" 
-                      variant="primary" 
-                      className="w-100 d-flex align-items-center justify-content-center gap-2"
-=======
                     
                     <InputGroup className="mb-3">
                       <InputGroup.Text className="bg-success text-white">
@@ -236,7 +213,6 @@ const HomePage = () => {
                       type="submit" 
                       variant="primary" 
                       className="w-100 d-flex align-items-center justify-content-center gap-2 py-2"
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                     >
                       <FaSearch />
                       Search Available Rides
@@ -309,11 +285,7 @@ const HomePage = () => {
       </section>
       
       {/* Testimonials Section */}
-<<<<<<< HEAD
-      <section className="testimonials-section py-5">
-=======
       <section className="testimonials-section py-5" style={{ background: 'linear-gradient(to right, #f8f9fa, #e9ecef)' }}>
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
         <Container>
           <div className="text-center mb-5">
             <h2 className="display-5 fw-bold">What Our Community Says</h2>
@@ -321,28 +293,6 @@ const HomePage = () => {
           </div>
           
           <Carousel 
-<<<<<<< HEAD
-            indicators={true} 
-            className="testimonial-carousel bg-white p-4 shadow-sm rounded"
-          >
-            {testimonials.map((testimonial, index) => (
-              <Carousel.Item key={index} className="p-3">
-                <Row className="align-items-center">
-                  <Col md={4} className="text-center mb-4 mb-md-0">
-                    <div className="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style={{ width: 150, height: 150 }}>
-                      <FaUser className="text-primary" size={60} />
-                    </div>
-                  </Col>
-                  <Col md={8}>
-                    <blockquote className="blockquote">
-                      <p className="mb-4 fs-5">"{testimonial.quote}"</p>
-                      <footer className="blockquote-footer">
-                        <strong>{testimonial.author}</strong>, {testimonial.role}
-                      </footer>
-                    </blockquote>
-                  </Col>
-                </Row>
-=======
             indicators={true}
             className="testimonial-carousel shadow rounded"
             prevIcon={<span className="carousel-control-prev-icon" style={{ filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,0.3))' }} />}
@@ -376,7 +326,6 @@ const HomePage = () => {
                     </Col>
                   </Row>
                 </div>
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
               </Carousel.Item>
             ))}
           </Carousel>
@@ -441,8 +390,4 @@ const HomePage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default HomePage;
-=======
-export default HomePage;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
