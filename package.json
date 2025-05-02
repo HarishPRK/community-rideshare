@@ -27,15 +27,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "CI=false ESLINT_NO_DEV_ERRORS=true react-scripts build",
-    "build:vercel": "CI=false ESLINT_NO_DEV_ERRORS=true react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint --fix src/**/*.{js,jsx}",
-    "lint:fix": "eslint src/**/*.{js,jsx} --fix",
-    "format": "prettier --write src/**/*.{js,jsx,css,scss}",
-    "prebuild": "echo 'Preparing build...' && npm run lint:fix",
-    "postinstall": "echo 'Installation complete!'"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
