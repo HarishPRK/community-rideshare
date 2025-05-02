@@ -14,12 +14,8 @@ import {
   FaInfoCircle,
   FaSort,
   FaSortUp,
-<<<<<<< HEAD
-  FaSortDown
-=======
   FaSortDown,
-  FaMoneyBillWave
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
+  FaMoneyBillWave,
 } from 'react-icons/fa';
 import { useRide } from '../contexts/RideContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -401,7 +397,6 @@ const RideHistoryPage = () => {
                               </div>
                             </td>
                             <td>
-<<<<<<< HEAD
                               {ride.rider ? (
                                 <div className="d-flex align-items-center">
                                   <div 
@@ -421,7 +416,6 @@ const RideHistoryPage = () => {
                               ) : (
                                 <span className="text-muted">No passenger yet</span>
                               )}
-=======
                               {/* Find accepted passengers from the requests array */}
                               {(() => {
                                 const acceptedRequests = ride.requests?.filter(req => req.status === 'ACCEPTED') || [];
@@ -447,7 +441,6 @@ const RideHistoryPage = () => {
                                   return <span className="text-muted">No passenger yet</span>;
                                 }
                               })()}
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                             </td>
                             <td>
                               <div className="d-flex gap-2">
@@ -794,8 +787,4 @@ const RideHistoryPage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default RideHistoryPage;
-=======
-export default RideHistoryPage;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

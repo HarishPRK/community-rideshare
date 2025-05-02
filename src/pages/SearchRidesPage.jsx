@@ -16,11 +16,7 @@ import {
   DropdownButton
 } from 'react-bootstrap';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-<<<<<<< HEAD
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
-=======
-import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 import { 
   FaSearch, 
   FaMapMarkerAlt, 
@@ -38,17 +34,14 @@ import {
 } from 'react-icons/fa';
 import { useRide } from '../contexts/RideContext';
 import { useAuth } from '../contexts/AuthContext';
-<<<<<<< HEAD
+import GoogleMapsSingleton from '../utils/googleMapsSingleton';
+import { getGoogleMapsApiKey } from '../utils/mapUtils';
 
 // Google Maps API key from environment variables
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'your-default-api-key';
 
 // Libraries for Google Maps
 const libraries = ['places'];
-=======
-import GoogleMapsSingleton from '../utils/googleMapsSingleton';
-import { getGoogleMapsApiKey } from '../utils/mapUtils';
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 
 const SearchRidesPage = () => {
   const location = useLocation();
@@ -60,44 +53,11 @@ const SearchRidesPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const locationParam = queryParams.get('location') || '';
   
-<<<<<<< HEAD
   // Load Google Maps API
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
     libraries,
   });
-=======
-  // Google Maps state
-  const [isLoaded, setIsLoaded] = useState(GoogleMapsSingleton.isLoaded());
-  const [loadError, setLoadError] = useState(null);
-  
-  // Initialize Google Maps
-  useEffect(() => {
-    if (!isLoaded) {
-      // Get API key
-      const { apiKey, isValid } = getGoogleMapsApiKey();
-      
-      if (!isValid) {
-        setLoadError(new Error('Google Maps API key is missing or invalid'));
-        return;
-      }
-      
-      // Initialize the singleton with the API key
-      GoogleMapsSingleton.init(apiKey);
-      
-      // Load Google Maps
-      GoogleMapsSingleton.load()
-        .then(() => {
-          console.log('SearchRidesPage: Google Maps loaded successfully');
-          setIsLoaded(true);
-        })
-        .catch(error => {
-          console.error('SearchRidesPage: Failed to load Google Maps:', error);
-          setLoadError(error);
-        });
-    }
-  }, [isLoaded]);
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   
   // Search states
   const [searchResults, setSearchResults] = useState([]);
@@ -119,6 +79,46 @@ const SearchRidesPage = () => {
     direction: 'asc'
   });
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'map'
+
+  // Handle search form submission
+  const handleSearch = async (e) => {
+    if (e) e.preventDefault();
+    
+    if (!searchParams.location) {
+      setError('Please enter a location to search for rides');
+      return;
+    }
+    
+    // Update URL with search params
+    const params = new URLSearchParams();
+    if (searchParams.location) params.set('location', searchParams.location);
+    navigate({ search: params.toString() });
+    
+    setLoading(true);
+    setError('');
+    
+    try {
+      const searchCriteria = {
+        location: searchParams.location,
+        departureDate: searchParams.departure,
+        radius: searchParams.radius,
+        passengers: searchParams.passengers,
+        maxPrice: searchParams.maxPrice || undefined,
+      };
+      
+      const result = await searchRides(searchCriteria);
+      
+      if (result.success) {
+        setSearchResults(result.data);
+      } else {
+        throw new Error(result.message || 'Failed to search for rides');
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   
   // Search for rides when location changes in URL
   useEffect(() => {
@@ -126,7 +126,7 @@ const SearchRidesPage = () => {
       setSearchParams(prev => ({ ...prev, location: locationParam }));
       handleSearch();
     }
-  }, [locationParam]);
+  }, [locationParam, handleSearch]);
   
   // Initialize autocomplete when the component mounts
   useEffect(() => {
@@ -144,16 +144,7 @@ const SearchRidesPage = () => {
     }
   }, [isLoaded]);
   
-<<<<<<< HEAD
   // Format date for display
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-=======
-  // Format date for display (Corrected to handle potential timezone issues)
   const formatDate = (dateString) => {
     if (!dateString) return '';
     // Split the date string 'YYYY-MM-DD'
@@ -171,7 +162,6 @@ const SearchRidesPage = () => {
     return date.toLocaleDateString('en-US', {
       weekday: 'short', 
       month: 'short', 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       day: 'numeric'
     });
   };
@@ -233,46 +223,6 @@ const SearchRidesPage = () => {
     });
   }, [searchResults, sortConfig]);
   
-  // Handle search form submission
-  const handleSearch = async (e) => {
-    if (e) e.preventDefault();
-    
-    if (!searchParams.location) {
-      setError('Please enter a location to search for rides');
-      return;
-    }
-    
-    // Update URL with search params
-    const params = new URLSearchParams();
-    if (searchParams.location) params.set('location', searchParams.location);
-    navigate({ search: params.toString() });
-    
-    setLoading(true);
-    setError('');
-    
-    try {
-      const searchCriteria = {
-        location: searchParams.location,
-        departureDate: searchParams.departure,
-        radius: searchParams.radius,
-        passengers: searchParams.passengers,
-        maxPrice: searchParams.maxPrice || undefined,
-      };
-      
-      const result = await searchRides(searchCriteria);
-      
-      if (result.success) {
-        setSearchResults(result.data);
-      } else {
-        throw new Error(result.message || 'Failed to search for rides');
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
   // Handle map marker click
   const handleMarkerClick = (ride) => {
     setSelectedRide(ride);
@@ -291,11 +241,8 @@ const SearchRidesPage = () => {
     if (loadError) {
       return (
         <Alert variant="danger">
-<<<<<<< HEAD
           Error loading maps. Please try again later.
-=======
           Error loading maps: {loadError.message || 'Unknown error. Please try again later.'}
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
         </Alert>
       );
     }
@@ -797,8 +744,4 @@ const SearchRidesPage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default SearchRidesPage;
-=======
-export default SearchRidesPage;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

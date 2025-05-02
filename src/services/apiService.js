@@ -188,11 +188,6 @@ export const rideService = {
    */
   getRideById: async (rideId) => {
     try {
-<<<<<<< HEAD
-      const response = await axios.get(`${API_URL}/rides/${rideId}`);
-      return response.data;
-    } catch (error) {
-=======
       console.log(`apiService: Fetching ride details for ID ${rideId}`);
       
       // Add additional logging to check headers
@@ -226,23 +221,11 @@ export const rideService = {
         console.error('apiService: Error response status:', error.response.status);
       }
       
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       throw handleApiError(error);
     }
   },
 
   /**
-<<<<<<< HEAD
-   * Request a new ride
-   * @param {Object} rideData - Ride request data
-   * @returns {Promise} Promise resolving to API response
-   */
-  requestRide: async (rideData) => {
-    try {
-      const response = await axios.post(`${API_URL}/rides/request`, rideData);
-      return response.data;
-    } catch (error) {
-=======
    * Request to join an existing ride as a passenger
    * @param {Object} requestData - Request data with rideId and passengers count
    * @returns {Promise} Promise resolving to API response
@@ -255,28 +238,17 @@ export const rideService = {
       return response.data;
     } catch (error) {
       console.error('API Service - Ride request error:', error);
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       throw handleApiError(error);
     }
   },
 
   /**
-<<<<<<< HEAD
-   * Offer a new ride
-   * @param {Object} rideData - Ride offer data
-=======
    * Offer a new ride as a driver
    * @param {Object} rideData - Complete ride details (pickup, dropoff, time, etc.)
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
    * @returns {Promise} Promise resolving to API response
    */
   offerRide: async (rideData) => {
     try {
-<<<<<<< HEAD
-      const response = await axios.post(`${API_URL}/rides/offer`, rideData);
-      return response.data;
-    } catch (error) {
-=======
       // Set a token for testing (if one doesn't exist)
       const token = localStorage.getItem('token') || 'dummy-test-token';
       
@@ -298,7 +270,6 @@ export const rideService = {
       console.error('API Service - Ride offer error:', error.message);
       console.error('API Service - Error response:', error.response?.data);
       console.error('API Service - Error status:', error.response?.status);
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       throw handleApiError(error);
     }
   },
@@ -418,8 +389,4 @@ export default {
   auth: authService,
   user: userService,
   ride: rideService
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

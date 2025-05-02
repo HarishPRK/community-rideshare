@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect, useRef } from 'react';
+import React, { createContext, useState, useContext, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
 // Assuming apiService exists and is correctly imported/configured
@@ -33,10 +33,11 @@ export const RideProvider = ({ children }) => {
       fetchAvailableRides();
       fetchUserRides();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, fetchAvailableRides, fetchUserRides]); // Keep dependencies here for now
 
   // Fetch available rides in the community
-  const fetchAvailableRides = async () => {
+  const fetchAvailableRides = useCallback(async () => {
+    // Dependencies: isAuthenticated, API_URL
     if (!isAuthenticated || isRefreshing.current) return;
 
     try {
@@ -54,10 +55,11 @@ export const RideProvider = ({ children }) => {
         isRefreshing.current = false;
       }, 1000);
     }
-  };
+  }, [isAuthenticated]); // Add isAuthenticated dependency
 
   // Fetch user's rides (both requested and offered)
-  const fetchUserRides = async () => {
+  const fetchUserRides = useCallback(async () => {
+    // Dependencies: isAuthenticated, API_URL
     if (!isAuthenticated || isRefreshing.current) return;
 
     try {
@@ -108,7 +110,7 @@ export const RideProvider = ({ children }) => {
         isRefreshing.current = false;
       }, 1000);
     }
-  };
+  }, [isAuthenticated]); // Add isAuthenticated dependency
 
   // Debounced refresh to prevent simultaneous calls
   const debouncedRefresh = () => {

@@ -92,22 +92,15 @@ const ProfilePage = () => {
         profilePicture: null,
         preferredPaymentMethod: currentUser.preferredPaymentMethod || 'cash',
       });
-      
-<<<<<<< HEAD
-      if (currentUser.vehicle) {
-        setVehicleData({
-          model: currentUser.vehicle.model || '',
-          color: currentUser.vehicle.color || '',
-          year: currentUser.vehicle.year || '',
-          licensePlate: currentUser.vehicle.licensePlate || '',
-          seats: currentUser.vehicle.seats || 4,
-=======
+
       // Correctly access vehicle data from the 'vehicles' array
+      // Check if currentUser.vehicles exists and has items
       const userVehicle = currentUser.vehicles && currentUser.vehicles.length > 0 
         ? currentUser.vehicles[0] 
-        : null;
+        : null; // If no vehicles, set userVehicle to null
 
       if (userVehicle) {
+        // If a vehicle exists, update vehicleData state
         setVehicleData({
           model: userVehicle.model || '',
           color: userVehicle.color || '',
@@ -117,22 +110,22 @@ const ProfilePage = () => {
           seats: userVehicle.capacity || 4, 
         });
       } else {
-        // Reset vehicle form if no vehicle data is present
+        // If no vehicle data, reset the vehicle form state
         setVehicleData({
           model: '',
           color: '',
           year: '',
           licensePlate: '',
-          seats: 4,
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
+          seats: 4, // Default seats
         });
       }
       
+      // Set profile picture preview if URL exists
       if (currentUser.profilePictureUrl) {
         setPreviewImage(currentUser.profilePictureUrl);
       }
     }
-  }, [currentUser]);
+  }, [currentUser]); // Dependency array remains currentUser
   
   // Handle profile form input changes
   const handleProfileChange = (e) => {
@@ -217,13 +210,11 @@ const ProfilePage = () => {
       const result = await updateProfile(formData);
       
       if (result.success) {
-<<<<<<< HEAD
         setSuccess('Profile updated successfully!');
         setIsEditing(false);
         
         // Refresh user profile
         refreshUserProfile();
-=======
         // Explicitly refresh profile data *before* setting success/editing state
         const refreshedUser = await refreshUserProfile(); // Wait for the refresh and get the data
         
@@ -253,7 +244,6 @@ const ProfilePage = () => {
         setSuccess('Profile updated successfully!');
         setIsEditing(false);
         
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       } else {
         throw new Error(result.message || 'Failed to update profile');
       }
@@ -1044,8 +1034,4 @@ const ProfilePage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default ProfilePage;
-=======
-export default ProfilePage;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

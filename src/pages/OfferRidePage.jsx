@@ -1,45 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-<<<<<<< HEAD
-import { Container, Row, Col, Card, Form, Button, Alert, Spinner, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-=======
 import axios from 'axios';
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
 import { useNavigate } from 'react-router-dom';
 import { 
   FaMapMarkerAlt, 
   FaCalendarAlt, 
   FaClock, 
   FaUserFriends, 
-<<<<<<< HEAD
-  FaMoneyBillWave, 
-  FaInfoCircle,
-  FaCar,
-  FaRoute
-} from 'react-icons/fa';
-import { useRide } from '../contexts/RideContext';
-import { useAuth } from '../contexts/AuthContext';
-import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
-
-// Google Maps API key from environment variables
-const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'your-default-api-key';
-
-// Libraries for Google Maps
-const libraries = ['places'];
-
-const OfferRidePage = () => {
-  const { offerRide, loading: rideLoading, error: rideError } = useRide();
-  const { currentUser } = useAuth();
-  const navigate = useNavigate();
-  
-  // Load Google Maps API
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
-    libraries,
-  });
-  
-  // State for the form
-=======
   FaMoneyBillWave,
   FaInfoCircle,
   FaCar,
@@ -100,16 +67,7 @@ const OfferRidePage = () => {
     }
   }, [isLoaded]);
 
-  // // Fetch latest user profile on mount to ensure vehicle data is current - REMOVED to prevent potential loops
-  // useEffect(() => {
-  //   if (refreshUserProfile) {
-  //     console.log('OfferRidePage: Refreshing user profile to get latest vehicle data...');
-  //     refreshUserProfile();
-  //   }
-  // }, [refreshUserProfile]);
-  
   // Form state
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   const [formData, setFormData] = useState({
     pickupLocation: '',
     pickupCoordinates: null,
@@ -117,20 +75,8 @@ const OfferRidePage = () => {
     dropoffCoordinates: null,
     date: '',
     time: '',
-<<<<<<< HEAD
     maxPassengers: 3,
     pricePerSeat: '',
-    vehicleModel: '',
-    vehicleColor: '',
-    licensePlate: '',
-=======
-    // vehicleId: 1, // We'll get this from currentUser.vehicle.id
-    maxPassengers: 3,
-    pricePerSeat: '',
-    // vehicleModel: '', // Removed
-    // vehicleColor: '', // Removed
-    // licensePlate: '', // Removed
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
     allowDetours: false,
     notes: '',
   });
@@ -147,8 +93,6 @@ const OfferRidePage = () => {
   const [currentWaypoint, setCurrentWaypoint] = useState('');
   const [currentWaypointCoords, setCurrentWaypointCoords] = useState(null);
   
-<<<<<<< HEAD
-=======
   // Error boundary effect - runs after hooks are properly initialized
   useEffect(() => {
     const handleErrors = () => {
@@ -175,84 +119,7 @@ const OfferRidePage = () => {
       window.removeEventListener('error', () => {});
     };
   }, []);
-  
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
-  // Calculate route when locations change
-  useEffect(() => {
-    if (isLoaded && formData.pickupCoordinates && formData.dropoffCoordinates) {
-      calculateRoute();
-    }
-  }, [isLoaded, formData.pickupCoordinates, formData.dropoffCoordinates, waypoints]);
-  
-<<<<<<< HEAD
-=======
-  // Initialize autocomplete when the component mounts
-  useEffect(() => {
-    if (isLoaded && window.google) {
-      try {
-        const initAutocomplete = (inputId, type) => {
-          const input = document.getElementById(inputId);
-          if (input) {
-            try {
-              const autocomplete = new window.google.maps.places.Autocomplete(input);
-              autocomplete.addListener('place_changed', () => {
-                try {
-                  const place = autocomplete.getPlace();
-                  if (place && place.geometry) {
-                    handlePlaceSelect(place, type);
-                  }
-                } catch (placeError) {
-                  console.error('Error getting place details:', placeError);
-                }
-              });
-            } catch (autoCompleteError) {
-              console.error(`Error setting up autocomplete for ${inputId}:`, autoCompleteError);
-            }
-          }
-        };
-        
-        setTimeout(() => {
-          // Delay initialization slightly to ensure DOM is fully loaded
-          try {
-            initAutocomplete('pickup-location', 'pickup');
-            initAutocomplete('dropoff-location', 'dropoff');
-            if (showAddWaypoint) {
-              initAutocomplete('waypoint-location', 'waypoint');
-            }
-          } catch (err) {
-            console.error('Error initializing autocomplete:', err);
-            setInitError(true);
-          }
-        }, 100);
-      } catch (err) {
-        console.error('Error in autocomplete setup:', err);
-        setInitError(true);
-      }
-    }
-  }, [isLoaded, showAddWaypoint]);
-  
-  // Handle place selection from autocomplete
-  const handlePlaceSelect = (place, type) => {
-    if (place.geometry && place.geometry.location) {
-      const coordinates = {
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
-      };
-      
-      if (type === 'waypoint') {
-        setCurrentWaypoint(place.formatted_address);
-        setCurrentWaypointCoords(coordinates);
-      } else {
-        setFormData(prev => ({
-          ...prev,
-          [`${type}Location`]: place.formatted_address,
-          [`${type}Coordinates`]: coordinates,
-        }));
-      }
-    }
-  };
-  
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
+
   // Calculate route with all waypoints
   const calculateRoute = useCallback(() => {
     if (!window.google) return;
@@ -323,7 +190,58 @@ const OfferRidePage = () => {
     waypoints
   ]);
   
-<<<<<<< HEAD
+  // Calculate route when locations change
+  useEffect(() => {
+    if (isLoaded && formData.pickupCoordinates && formData.dropoffCoordinates) {
+      calculateRoute();
+    }
+  }, [isLoaded, formData.pickupCoordinates, formData.dropoffCoordinates, waypoints, calculateRoute]);
+  
+  // Initialize autocomplete when the component mounts
+  useEffect(() => {
+    if (isLoaded && window.google) {
+      try {
+        const initAutocomplete = (inputId, type) => {
+          const input = document.getElementById(inputId);
+          if (input) {
+            try {
+              const autocomplete = new window.google.maps.places.Autocomplete(input);
+              autocomplete.addListener('place_changed', () => {
+                try {
+                  const place = autocomplete.getPlace();
+                  if (place && place.geometry) {
+                    handlePlaceSelect(place, type);
+                  }
+                } catch (placeError) {
+                  console.error('Error getting place details:', placeError);
+                }
+              });
+            } catch (autoCompleteError) {
+              console.error(`Error setting up autocomplete for ${inputId}:`, autoCompleteError);
+            }
+          }
+        };
+        
+        setTimeout(() => {
+          // Delay initialization slightly to ensure DOM is fully loaded
+          try {
+            initAutocomplete('pickup-location', 'pickup');
+            initAutocomplete('dropoff-location', 'dropoff');
+            if (showAddWaypoint) {
+              initAutocomplete('waypoint-location', 'waypoint');
+            }
+          } catch (err) {
+            console.error('Error initializing autocomplete:', err);
+            setInitError(true);
+          }
+        }, 100);
+      } catch (err) {
+        console.error('Error in autocomplete setup:', err);
+        setInitError(true);
+      }
+    }
+  }, [isLoaded, showAddWaypoint]);
+  
   // Handle place selection from autocomplete
   const handlePlaceSelect = (place, type) => {
     if (place.geometry && place.geometry.location) {
@@ -345,28 +263,6 @@ const OfferRidePage = () => {
     }
   };
   
-  // Initialize autocomplete when the component mounts
-  useEffect(() => {
-    if (isLoaded && window.google) {
-      const initAutocomplete = (inputId, type) => {
-        const input = document.getElementById(inputId);
-        if (input) {
-          const autocomplete = new window.google.maps.places.Autocomplete(input);
-          autocomplete.addListener('place_changed', () => {
-            const place = autocomplete.getPlace();
-            handlePlaceSelect(place, type);
-          });
-        }
-      };
-      
-      initAutocomplete('pickup-location', 'pickup');
-      initAutocomplete('dropoff-location', 'dropoff');
-      initAutocomplete('waypoint-location', 'waypoint');
-    }
-  }, [isLoaded, showAddWaypoint]);
-  
-=======
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -412,20 +308,6 @@ const OfferRidePage = () => {
         throw new Error('Please select valid pickup and dropoff locations');
       }
       
-<<<<<<< HEAD
-      if (!formData.vehicleModel || !formData.vehicleColor || !formData.licensePlate) {
-        throw new Error('Please provide your vehicle details');
-      }
-      
-      // Create ride offer payload
-      const rideData = {
-        driverId: currentUser.id,
-=======
-      // Removed the check for old vehicle form fields
-      // if (!formData.vehicleModel || !formData.vehicleColor || !formData.licensePlate) {
-      //   throw new Error('Please provide your vehicle details');
-      // }
-      
       // Get the user's first vehicle from the vehicles array
       const userVehicle = currentUser?.vehicles && currentUser.vehicles.length > 0 ? currentUser.vehicles[0] : null;
 
@@ -437,39 +319,10 @@ const OfferRidePage = () => {
       // Create ride offer payload - Align with Postman example
       const rideData = {
         vehicleId: userVehicle.id, // Use vehicleId from the extracted vehicle
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
         pickupLocation: {
           address: formData.pickupLocation,
           latitude: formData.pickupCoordinates.lat,
           longitude: formData.pickupCoordinates.lng,
-<<<<<<< HEAD
-        },
-        dropoffLocation: {
-          address: formData.dropoffLocation,
-          latitude: formData.dropoffCoordinates.lat,
-          longitude: formData.dropoffCoordinates.lng,
-        },
-        waypoints: waypoints.map(waypoint => ({
-          address: waypoint.name,
-          latitude: waypoint.coordinates.lat,
-          longitude: waypoint.coordinates.lng
-        })),
-        departureDate: formData.date,
-        departureTime: formData.time,
-        maxPassengers: parseInt(formData.maxPassengers, 10),
-        pricePerSeat: parseFloat(formData.pricePerSeat),
-        vehicle: {
-          model: formData.vehicleModel,
-          color: formData.vehicleColor,
-          licensePlate: formData.licensePlate,
-        },
-        allowDetours: formData.allowDetours,
-        notes: formData.notes,
-        distance: distance,
-        duration: duration,
-      };
-      
-=======
           // Add city, state, zipCode if needed by backend, otherwise omit
         },
         dropoffLocation: {
@@ -489,14 +342,10 @@ const OfferRidePage = () => {
       console.log('Sending offer ride payload:', JSON.stringify(rideData, null, 2));
       console.log('Authorization header:', axios.defaults.headers.common['Authorization']);
       
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       // Submit ride offer
       const result = await offerRide(rideData);
       
       if (result.success) {
-<<<<<<< HEAD
-        navigate(`/rides/${result.data.id}`, { state: { success: true } });
-=======
         console.log('Ride creation successful, data:', result.data);
         
         // Navigate to the "My Offered Rides" page with success message
@@ -518,7 +367,6 @@ const OfferRidePage = () => {
             } 
           });
         }
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       } else {
         throw new Error(result.message || 'Failed to create ride offer');
       }
@@ -529,8 +377,6 @@ const OfferRidePage = () => {
     }
   };
   
-<<<<<<< HEAD
-=======
   // Show error UI for any initialization errors that we caught
   if (hasError) {
     return (
@@ -550,16 +396,11 @@ const OfferRidePage = () => {
     );
   }
 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   // If Google Maps hasn't loaded yet
   if (loadError) {
     return (
       <Container className="py-5">
         <Alert variant="danger">
-<<<<<<< HEAD
-          Error loading maps. Please try again later.
-        </Alert>
-=======
           Error loading Google Maps: {loadError?.message || 'Unknown error'}. Please try again later.
         </Alert>
         <Button 
@@ -588,7 +429,6 @@ const OfferRidePage = () => {
         >
           Refresh Page
         </Button>
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
       </Container>
     );
   }
@@ -784,65 +624,6 @@ const OfferRidePage = () => {
                   </Form.Group>
                 </div>
                 
-<<<<<<< HEAD
-                {/* Vehicle Section */}
-                <div className="mb-4">
-                  <h5 className="border-bottom pb-2 mb-3">Vehicle Information</h5>
-                  
-                  {/* Vehicle Model */}
-                  <Form.Group className="mb-3">
-                    <Form.Label>Vehicle Model</Form.Label>
-                    <div className="input-group">
-                      <span className="input-group-text">
-                        <FaCar />
-                      </span>
-                      <Form.Control
-                        type="text"
-                        name="vehicleModel"
-                        placeholder="e.g., Toyota Camry, Honda Civic"
-                        value={formData.vehicleModel}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </Form.Group>
-                  
-                  <Row>
-                    {/* Vehicle Color */}
-                    <Col md={6} className="mb-3">
-                      <Form.Group>
-                        <Form.Label>Vehicle Color</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="vehicleColor"
-                          placeholder="e.g., Blue, Silver"
-                          value={formData.vehicleColor}
-                          onChange={handleChange}
-                          required
-                        />
-                      </Form.Group>
-                    </Col>
-                    
-                    {/* License Plate */}
-                    <Col md={6} className="mb-3">
-                      <Form.Group>
-                        <Form.Label>License Plate</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="licensePlate"
-                          placeholder="e.g., ABC123"
-                          value={formData.licensePlate}
-                          onChange={handleChange}
-                          required
-                        />
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                </div>
-                
-                {/* Ride Details Section */}
-                <div className="mb-4">
-=======
                   {/* Vehicle Section - Removed, vehicle info comes from profile */}
                   {/* Display selected vehicle from profile */}
                   {/* Check currentUser.vehicles[0] instead of currentUser.vehicle */}
@@ -887,7 +668,6 @@ const OfferRidePage = () => {
                   
                   {/* Ride Details Section */}
                   <div className="mb-4">
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                   <h5 className="border-bottom pb-2 mb-3">Ride Offer Details</h5>
                   
                   <Row>
@@ -977,16 +757,10 @@ const OfferRidePage = () => {
                 {/* Submit Button */}
                 <Button 
                   variant="primary" 
-<<<<<<< HEAD
-                  type="submit" 
-                  className="w-100 py-2"
-                  disabled={loading || rideLoading}
-=======
                   type="submit"
                   className="w-100 py-2"
                   // Update disabled check to use currentUser.vehicles[0]
                   disabled={loading || rideLoading || !(currentUser?.vehicles && currentUser.vehicles.length > 0 && currentUser.vehicles[0].id)} 
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                 >
                   {(loading || rideLoading) ? (
                     <>
@@ -1085,8 +859,4 @@ const OfferRidePage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default OfferRidePage;
-=======
-export default OfferRidePage;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080

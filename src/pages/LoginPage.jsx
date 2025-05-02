@@ -5,11 +5,7 @@ import { FaEnvelope, FaLock, FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 
 const LoginPage = () => {
-<<<<<<< HEAD
-  const { login, isAuthenticated, error: authError } = useAuth();
-=======
   const { login, loginWithGoogle, isAuthenticated, error: authError } = useAuth();
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -76,8 +72,6 @@ const LoginPage = () => {
     }
   };
   
-<<<<<<< HEAD
-=======
   // Handle Google sign-in
   const handleGoogleSignIn = async () => {
     setError('');
@@ -99,7 +93,6 @@ const LoginPage = () => {
     }
   };
   
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
   return (
     <Container className="py-5">
       <Row className="justify-content-center">
@@ -207,12 +200,6 @@ const LoginPage = () => {
                 <div className="text-center mb-4">
                   <p className="text-muted mb-3">Or sign in with</p>
                   <div className="d-flex justify-content-center gap-3">
-<<<<<<< HEAD
-                    <Button variant="outline-primary" className="rounded-circle p-2">
-                      <FaGoogle />
-                    </Button>
-                    <Button variant="outline-primary" className="rounded-circle p-2">
-=======
                     <Button 
                       variant="outline-primary" 
                       className="rounded-circle p-2"
@@ -236,7 +223,6 @@ const LoginPage = () => {
                       className="rounded-circle p-2"
                       disabled={loading}
                     >
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
                       <FaFacebook />
                     </Button>
                   </div>
@@ -260,8 +246,4 @@ const LoginPage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default LoginPage;
-=======
-export default LoginPage;
->>>>>>> 9581ae24c5755c57cb6defb071dadb47e37fa080
