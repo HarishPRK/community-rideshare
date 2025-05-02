@@ -78,44 +78,15 @@ const RideHistoryPage = () => {
       return 0;
     });
   };
-  // Format date to display the date as intended from UTC string
+  
+  // Format date
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    try {
-      // Parse the date string, which might be like "2025-05-02T00:00:00.000Z"
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
-        // Attempt to parse just the date part if full timestamp fails
-        const datePart = dateString.split('T')[0];
-        const parts = datePart.split('-');
-        if (parts.length === 3) {
-          const year = parseInt(parts[0], 10);
-          const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
-          const day = parseInt(parts[2], 10);
-          // Use Date.UTC to get timestamp, then create Date object
-          const utcDate = new Date(Date.UTC(year, month, day));
-           if (!isNaN(utcDate.getTime())) {
-             return utcDate.toLocaleDateString('en-US', {
-               year: 'numeric',
-               month: 'short',
-               day: 'numeric',
-               timeZone: 'UTC' // Specify UTC timezone for formatting
-             });
-           }
-        }
-        return "Invalid Date";
-      }
-      // Format the valid date object using UTC timezone
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        timeZone: 'UTC' // Specify UTC timezone
-      });
-    } catch (e) {
-      console.error("Error formatting date:", dateString, e);
-      return "Invalid Date";
-    }
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
   };
   
   // Get status badge
@@ -382,14 +353,11 @@ const RideHistoryPage = () => {
                           </th>
                           <th>Price</th>
                           <th>Passenger</th>
-                            <th>Actions</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {/* Filter offered rides to show only active/upcoming ones */}
-                        {sortedRides(userRides.offered)
-                          .filter(ride => ['pending', 'accepted', 'in_progress', 'active'].includes(ride.status?.toLowerCase())) 
-                          .map((ride) => (
+                        {sortedRides(userRides.offered).map((ride) => (
                           <tr key={ride.id}>
                             <td>
                               <div className="d-flex align-items-center">
@@ -429,10 +397,28 @@ const RideHistoryPage = () => {
                               </div>
                             </td>
                             <td>
-                              {/* Removed the first block that tried to display ride.rider */}
+                              {ride.rider ? (
+                                <div className="d-flex align-items-center">
+                                  <div 
+                                    className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-2"
+                                    style={{ width: '32px', height: '32px' }}
+                                  >
+                                    <FaUser className="text-white" size={14} />
+                                  </div>
+                                  <div>
+                                    <div>{ride.rider.name}</div>
+                                    <div className="d-flex align-items-center text-muted small">
+                                      <FaStar className="text-warning me-1" />
+                                      <span>{ride.rider.rating?.toFixed(1) || 'N/A'}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="text-muted">No passenger yet</span>
+                              )}
                               {/* Find accepted passengers from the requests array */}
                               {(() => {
-                                const acceptedRequests = ride.requests?.filter(req => req.status === 'ACCEPTED' || req.status === 'accepted') || []; // Check both cases
+                                const acceptedRequests = ride.requests?.filter(req => req.status === 'ACCEPTED') || [];
                                 if (acceptedRequests.length > 0) {
                                   return acceptedRequests.map((request, index) => (
                                     <div key={request.id} className={`d-flex align-items-center ${index > 0 ? 'mt-1' : ''}`}>

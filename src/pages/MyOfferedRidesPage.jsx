@@ -103,43 +103,29 @@ const MyOfferedRidesPage = () => {
     });
   };
   
-  // Format date to display the date as intended from UTC string
+  // Format date (Corrected again for UTC handling with DATE type)
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
     try {
-      // Parse the date string, which might be like "2025-05-02T00:00:00.000Z"
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
-        // Attempt to parse just the date part if full timestamp fails
-        const datePart = dateString.split('T')[0];
-        const parts = datePart.split('-');
-        if (parts.length === 3) {
-          const year = parseInt(parts[0], 10);
-          const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
-          const day = parseInt(parts[2], 10);
-          // Use Date.UTC to get timestamp, then create Date object
-          const utcDate = new Date(Date.UTC(year, month, day));
-           if (!isNaN(utcDate.getTime())) {
-             return utcDate.toLocaleDateString('en-US', {
-               year: 'numeric',
-               month: 'short',
-               day: 'numeric',
-               timeZone: 'UTC' // Specify UTC timezone for formatting
-             });
-           }
-        }
-        return "Invalid Date";
-      }
-      // Format the valid date object using UTC timezone
-      return date.toLocaleDateString('en-US', {
+      // dateString should be a full timestamp string (e.g., 2025-04-17T00:00:00.000Z)
+      const date = new Date(dateString); 
+      if (isNaN(date.getTime())) return "Invalid Date";
+
+      // Extract UTC components to avoid local timezone shifting the date
+      const year = date.getUTCFullYear();
+      const month = date.getUTCMonth(); // 0-indexed
+      const day = date.getUTCDate();
+
+      // Create a new date object using UTC components but interpreted as local
+      const displayDate = new Date(year, month, day); 
+
+      return displayDate.toLocaleDateString('en-US', {
         year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        timeZone: 'UTC' // Specify UTC timezone
+        month: 'short', 
+        day: 'numeric'
       });
-    } catch (e) {
-      console.error("Error formatting date:", dateString, e);
-      return "Invalid Date";
+    } catch (e) { 
+      console.error("Error formatting date:", e); 
+      return "Invalid Date"; 
     }
   };
   
