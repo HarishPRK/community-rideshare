@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
-import RequestRidePage from './pages/RequestRidePage';
+import RequestRidePage from './pages/RequestRidePage'; // Restored import
 import OfferRidePage from './pages/OfferRidePage';
 import RideDetailsPage from './pages/RideDetailsPage';
 import RideHistoryPage from './pages/RideHistoryPage';
@@ -37,7 +37,7 @@ const routes = [
     element: <ProfilePage />,
     protected: true,
   },
-  {
+  { // Restored Request Ride route
     path: '/request-ride',
     element: <RequestRidePage />,
     protected: true,

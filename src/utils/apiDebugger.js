@@ -7,8 +7,8 @@ import axios from 'axios';
  * detailed logging and error reporting.
  */
 
-// Base API URL - should match your backend
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+// Base API URL - Updated to deployed backend URL
+const API_URL = process.env.REACT_APP_API_URL || 'https://community-rideshare-api.onrender.com/api';
 
 /**
  * Makes a test API request and returns detailed information about

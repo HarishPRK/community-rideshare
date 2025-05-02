@@ -45,7 +45,7 @@ const Header = () => {
               <>
                 <Nav.Link as={Link} to="/request-ride" onClick={closeNavbar}>
                   Request a Ride
-                </Nav.Link>
+                </Nav.Link> 
                 
                 <Nav.Link as={Link} to="/offer-ride" onClick={closeNavbar}>
                   Offer a Ride

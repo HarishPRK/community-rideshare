@@ -7,8 +7,8 @@ import { auth, googleProvider } from '../utils/firebase';
 // Create context
 export const AuthContext = createContext();
 
-// API base URL - should match your backend
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+// API base URL - Updated to deployed backend URL
+const API_URL = process.env.REACT_APP_API_URL || 'https://community-rideshare-api.onrender.com/api';
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);

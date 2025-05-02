@@ -8,8 +8,8 @@ import apiService from '../services/apiService';
 // Create context
 export const RideContext = createContext();
 
-// Make sure we use the API URL from environment variables
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+// Make sure we use the API URL from environment variables - Updated to deployed backend URL
+const API_URL = process.env.REACT_APP_API_URL || 'https://community-rideshare-api.onrender.com/api';
 
 export const RideProvider = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -227,19 +227,23 @@ export const RideProvider = ({ children }) => {
       // Assuming the endpoint is POST /api/rides/{rideId}/request
       // Use apiService if available and configured, otherwise fallback to axios
       let response;
-      const endpoint = `${API_URL}/rides/${rideId}/request`;
-      if (apiService && apiService.ride && apiService.ride.requestToJoin) {
-         // Ideal: Use a dedicated method in apiService if it exists
-         response = await apiService.ride.requestToJoin(rideId);
-      } else {
-         // Fallback: Use axios directly
-         response = await axios.post(endpoint);
+      // Use the corrected apiService function
+      if (!apiService || !apiService.ride || !apiService.ride.requestToJoin) {
+        throw new Error("apiService.ride.requestToJoin is not available");
       }
+      // Pass rideId to the dedicated apiService function. 
+      // Optional joinData (like passengerCount, note) could be added here if needed.
+      response = await apiService.ride.requestToJoin(rideId); 
+      
+      // Removed fallback to direct axios call as apiService should handle it
+      // const endpoint = `${API_URL}/rides/${rideId}/request`; 
+      // response = await axios.post(endpoint); 
+      // } // <-- REMOVED EXTRA BRACE
       console.log('Join ride request response:', response);
       // Optionally refresh data or handle success message
       debouncedRefresh(); // Refresh data after request
       return { success: true, data: response.data || response }; // Adjust based on actual response structure
-    } catch (err) {
+    } catch (err) { // Now the catch block correctly follows the try block
       console.error('Error requesting to join ride:', err);
       const errorMessage = err.response?.data?.message || err.message || 'Failed to send ride request.';
       setError(errorMessage);

@@ -226,16 +226,17 @@ export const rideService = {
   },
 
   /**
-   * Create a new ride request (passenger looking for a ride)
-   * @param {Object} requestData - Details of the requested ride (pickup, dropoff, time, etc.)
+   * Request to join an existing ride as a passenger.
+   * @param {string} rideId - The ID of the ride to join.
+   * @param {object} [joinData={}] - Optional data like passengerCount, note.
    * @returns {Promise} Promise resolving to API response
    */
-  requestRide: async (requestData) => {
+  requestToJoin: async (rideId, joinData = {}) => { // Renamed and added rideId parameter
     try {
-      // Changed endpoint from /rides/request to /ride-requests (assuming this is the correct endpoint for creation)
-      console.log('API Service - Creating new ride request with URL:', `${API_URL}/ride-requests`, 'and data:', requestData);
-      const response = await axios.post(`${API_URL}/ride-requests`, requestData);
-      console.log('API Service - New ride request response:', response.data);
+      const payload = { rideId, ...joinData }; // Construct payload including rideId
+      console.log('API Service - Requesting to join ride with URL:', `${API_URL}/rides/request`, 'and payload:', payload);
+      const response = await axios.post(`${API_URL}/rides/request`, payload); // Send payload with rideId
+      console.log('API Service - Join ride request response:', response.data);
       return response.data;
     } catch (error) {
       console.error('API Service - Ride request error:', error);
