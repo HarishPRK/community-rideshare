@@ -227,15 +227,16 @@ export const RideProvider = ({ children }) => {
       // Assuming the endpoint is POST /api/rides/{rideId}/request
       // Use apiService if available and configured, otherwise fallback to axios
       let response;
-      // Use the corrected apiService function
-      if (!apiService || !apiService.ride || !apiService.ride.requestToJoin) {
-        throw new Error("apiService.ride.requestToJoin is not available");
+      // Use the correct apiService function name ('requestRide')
+      if (!apiService || !apiService.ride || !apiService.ride.requestRide) {
+        throw new Error("apiService.ride.requestRide is not available");
       }
-      // Pass rideId to the dedicated apiService function. 
+      // Pass rideId within the requestData object as expected by the backend
       // Optional joinData (like passengerCount, note) could be added here if needed.
-      response = await apiService.ride.requestToJoin(rideId); 
-      
-      // Removed fallback to direct axios call as apiService should handle it
+      const requestData = { rideId }; // Construct the payload
+      response = await apiService.ride.requestRide(requestData); 
+
+      // Removed fallback to direct axios call
       // const endpoint = `${API_URL}/rides/${rideId}/request`; 
       // response = await axios.post(endpoint); 
       // } // <-- REMOVED EXTRA BRACE
