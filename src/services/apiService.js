@@ -226,15 +226,16 @@ export const rideService = {
   },
 
   /**
-   * Request to join an existing ride as a passenger
-   * @param {Object} requestData - Request data with rideId and passengers count
+   * Create a new ride request (passenger looking for a ride)
+   * @param {Object} requestData - Details of the requested ride (pickup, dropoff, time, etc.)
    * @returns {Promise} Promise resolving to API response
    */
   requestRide: async (requestData) => {
     try {
-      console.log('API Service - Requesting ride with URL:', `${API_URL}/rides/request`, 'and data:', requestData);
-      const response = await axios.post(`${API_URL}/rides/request`, requestData);
-      console.log('API Service - Ride request response:', response.data);
+      // Changed endpoint from /rides/request to /ride-requests (assuming this is the correct endpoint for creation)
+      console.log('API Service - Creating new ride request with URL:', `${API_URL}/ride-requests`, 'and data:', requestData);
+      const response = await axios.post(`${API_URL}/ride-requests`, requestData);
+      console.log('API Service - New ride request response:', response.data);
       return response.data;
     } catch (error) {
       console.error('API Service - Ride request error:', error);
