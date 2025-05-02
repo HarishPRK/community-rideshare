@@ -13,7 +13,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [, setToken] = useState(localStorage.getItem('token') || ''); // Removed unused 'token' variable
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 

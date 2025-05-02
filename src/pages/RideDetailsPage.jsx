@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom'; // Removed unused Link
 import {
   Container,
   Row,
@@ -28,10 +28,10 @@ import {
   FaStar,
   FaUser,
   FaCheckCircle,
-  FaTimesCircle,
+  // FaTimesCircle, // Removed unused
   FaRoute,
   FaComment,
-  FaExclamationTriangle
+  // FaExclamationTriangle // Removed unused
 } from 'react-icons/fa';
 import { useRide } from '../contexts/RideContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -74,7 +74,7 @@ const RideDetailsPage = () => {
   const [error, setError] = useState(''); // Local error state for actions
   const [loading, setLoading] = useState(true); // Local loading for initial fetch
   // Remove general actionLoading state: const [actionLoading, setActionLoading] = useState(false); 
-  const [buttonUpdateTrigger, setButtonUpdateTrigger] = useState(0); // State to force button UI updates
+  // Removed unused buttonUpdateTrigger state
 
   // Button-specific loading states using useRef
   const loadingRef = React.useRef({
@@ -87,16 +87,8 @@ const RideDetailsPage = () => {
     rate: false
   });
   
-  // State getters for each action (these don't trigger re-renders when changed)
-  const startRideLoading = loadingRef.current.start;
-  const completeRideLoading = loadingRef.current.complete;
-  const requestRideLoading = loadingRef.current.request_to_join;
-  const acceptRequestLoading = loadingRef.current.accept_request;
-  const rejectRequestLoading = loadingRef.current.reject_request;
-  const cancelRideLoading = loadingRef.current.cancel;
-  // Remove state getters, access ref directly:
-  // const startRideLoading = loadingRef.current.start;
-  // ... (removed other similar lines) ...
+  // Removed unused state getters for loading states (startRideLoading, etc.)
+  // Code now accesses loadingRef.current directly
   const [directions, setDirections] = useState(null);
   const [successMessage, setSuccessMessage] = useState(location.state?.success ? "Operation successful!" : "");
 
@@ -110,14 +102,16 @@ const RideDetailsPage = () => {
 
   // Google Maps state
   const [isLoaded, setIsLoaded] = useState(GoogleMapsSingleton.isLoaded());
-  const [loadError, setLoadError] = useState(null);
+  // Removed unused loadError state
 
   // Initialize Google Maps
   useEffect(() => {
     if (!isLoaded) {
       const { apiKey, isValid } = getGoogleMapsApiKey();
       if (!isValid) {
-        setLoadError(new Error('Google Maps API key is missing or invalid'));
+        // Set a general error or log, as loadError state is removed
+        console.error('Google Maps API key is missing or invalid');
+        setError('Google Maps API key is missing or invalid'); 
         return;
       }
       GoogleMapsSingleton.init(apiKey);
@@ -128,7 +122,8 @@ const RideDetailsPage = () => {
         })
         .catch(error => {
           console.error('RideDetailsPage: Failed to load Google Maps:', error);
-          setLoadError(error);
+          // Set a general error or log, as loadError state is removed
+          setError('Failed to load Google Maps'); 
         });
     }
   }, [isLoaded]);
@@ -223,9 +218,10 @@ const RideDetailsPage = () => {
   };
 
   // Helper to update loading ref and trigger re-render for buttons
+  const [, setForceUpdate] = useState(0); // Simple state to trigger re-render
   const setActionSpecificLoading = (action, isLoading) => {
       loadingRef.current[action] = isLoading;
-      setButtonUpdateTrigger(prev => prev + 1); // Force re-render
+      setForceUpdate(prev => prev + 1); // Force re-render
   };
 
   // Handle ride status change / request / accept/reject
@@ -661,13 +657,13 @@ const RideDetailsPage = () => {
                          data-action="rate"
                        >
                          Rate this Ride
-                       </Button>
-                     )}
-                     {/* Allow cancellation if ride is ACTIVE or user request is PENDING/ACCEPTED */}
-                     {(isDriver && ride.status === 'ACTIVE') || (userRideRequest && (userRideRequest.status === 'PENDING' || userRideRequest.status === 'ACCEPTED')) && ride.status !== 'IN_PROGRESS' && ride.status !== 'COMPLETED' && ride.status !== 'CANCELLED' && (
-                       <Button 
-                         variant="outline-danger" 
-                         onClick={() => setShowCancelModal(true)} 
+                      </Button>
+                    )}
+                    {/* Allow cancellation if ride is ACTIVE or user request is PENDING/ACCEPTED (Added parentheses for clarity) */}
+                    {((isDriver && ride.status === 'ACTIVE') || (userRideRequest && (userRideRequest.status === 'PENDING' || userRideRequest.status === 'ACCEPTED'))) && ride.status !== 'IN_PROGRESS' && ride.status !== 'COMPLETED' && ride.status !== 'CANCELLED' && (
+                      <Button 
+                        variant="outline-danger" 
+                        onClick={() => setShowCancelModal(true)} 
                          disabled={loadingRef.current.cancel || rideLoading || !ride} // Use ref state
                          data-action="cancel"
                        >

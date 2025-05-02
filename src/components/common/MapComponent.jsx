@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleMap, Marker, DirectionsRenderer, InfoWindow } from '@react-google-maps/api';
 import { Spinner, Alert, Button } from 'react-bootstrap';
-import { FaMapMarkerAlt, FaLocationArrow, FaRoute } from 'react-icons/fa';
+import { FaLocationArrow, FaRoute } from 'react-icons/fa';
 import GoogleMapsSingleton from '../../utils/googleMapsSingleton';
 import { getGoogleMapsApiKey } from '../../utils/mapUtils';
 

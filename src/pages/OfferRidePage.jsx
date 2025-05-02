@@ -19,8 +19,7 @@ import { GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api';
 import GoogleMapsSingleton from '../utils/googleMapsSingleton';
 import { getGoogleMapsApiKey } from '../utils/mapUtils';
 
-// This pre-defined variable prevents the "Cannot access 'rideData' before initialization" error
-const rideData = null;
+// Removed unused pre-defined rideData variable
 
 const OfferRidePage = () => {
   // Basic error states
@@ -35,8 +34,8 @@ const OfferRidePage = () => {
 
   // Destructure hook results safely
   const { offerRide, loading: rideLoading, error: rideError } = rideContext || {};
-  // Get refreshUserProfile function from auth context
-  const { currentUser, refreshUserProfile } = authContext || {}; 
+  // Get currentUser from auth context (removed unused refreshUserProfile)
+  const { currentUser } = authContext || {}; 
   
   // Google Maps state
   const [isLoaded, setIsLoaded] = useState(GoogleMapsSingleton.isLoaded());

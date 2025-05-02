@@ -13,7 +13,7 @@ let isLoading = false;
 let isLoaded = false;
 let loadPromise = null;
 let loadedCallbacks = [];
-let loadAttempted = false;
+// Removed unused loadAttempted variable
 
 // Check if the API is loaded at startup - needed to handle page refreshes
 if (typeof window !== 'undefined' && window.google && window.google.maps) {
@@ -201,7 +201,7 @@ export const resetGoogleMapsApiLoadAttempt = () => {
   isLoading = false;
   isLoaded = false;
   loadPromise = null;
-  loadAttempted = false;
+  // Removed assignment to unused loadAttempted variable
   
   // Check if script tags need to be removed
   if (typeof window !== 'undefined') {

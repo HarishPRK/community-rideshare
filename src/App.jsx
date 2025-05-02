@@ -39,7 +39,6 @@ import './assets/styles/App.css';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [authReady, setAuthReady] = useState(false);
   
   // Initialize Google Maps API and check authentication
   useEffect(() => {

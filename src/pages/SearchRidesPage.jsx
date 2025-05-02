@@ -21,7 +21,7 @@ import {
   FaSearch, 
   FaMapMarkerAlt, 
   FaCalendarAlt, 
-  FaClock, 
+  // FaClock, // Removed unused
   FaUserFriends, 
   FaMoneyBillWave, 
   FaFilter,
@@ -34,8 +34,7 @@ import {
 } from 'react-icons/fa';
 import { useRide } from '../contexts/RideContext';
 import { useAuth } from '../contexts/AuthContext';
-import GoogleMapsSingleton from '../utils/googleMapsSingleton';
-import { getGoogleMapsApiKey } from '../utils/mapUtils';
+// Removed unused GoogleMapsSingleton and getGoogleMapsApiKey imports
 
 // Google Maps API key from environment variables
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'your-default-api-key';
@@ -81,7 +80,7 @@ const SearchRidesPage = () => {
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'map'
 
   // Handle search form submission
-  const handleSearch = async (e) => {
+  const handleSearch = useCallback(async (e) => {
     if (e) e.preventDefault();
     
     if (!searchParams.location) {
@@ -118,7 +117,7 @@ const SearchRidesPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchParams, navigate, searchRides]); // Added dependencies
   
   // Search for rides when location changes in URL
   useEffect(() => {

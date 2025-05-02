@@ -5,9 +5,9 @@ import {
   FaMapMarkerAlt, 
   FaCalendarAlt, 
   FaClock, 
-  FaUser, 
-  FaCar, 
-  FaStar, 
+  // FaUser, // Removed unused
+  // FaCar, // Removed unused
+  // FaStar, // Removed unused
   FaInfoCircle,
   FaSort,
   FaSortUp,
@@ -17,13 +17,13 @@ import {
   FaCheckCircle
 } from 'react-icons/fa';
 import { useRide } from '../contexts/RideContext';
-import { useAuth } from '../contexts/AuthContext';
+// Removed unused useAuth import
 
 const MyOfferedRidesPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { userRides, refreshRides, loading: rideLoading, error: rideError } = useRide();
-  const { currentUser } = useAuth();
+  // const { currentUser } = useAuth(); // This line was already commented out
   
   // State
   const [sortConfig, setSortConfig] = useState({

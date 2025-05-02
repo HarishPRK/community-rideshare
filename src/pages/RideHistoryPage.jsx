@@ -5,11 +5,11 @@ import {
   FaMapMarkerAlt, 
   FaCalendarAlt, 
   FaClock, 
-  FaExchangeAlt, 
+  // FaExchangeAlt, // Removed unused
   FaUser, 
   FaCar, 
-  FaCheck, 
-  FaTimes, 
+  // FaCheck, // Removed unused
+  // FaTimes, // Removed unused
   FaStar, 
   FaInfoCircle,
   FaSort,

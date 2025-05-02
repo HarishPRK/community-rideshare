@@ -385,8 +385,11 @@ const handleApiError = (error) => {
   return customError;
 };
 
-export default {
+// Assign the object to a variable before exporting
+const apiService = {
   auth: authService,
   user: userService,
   ride: rideService
 };
+
+export default apiService;

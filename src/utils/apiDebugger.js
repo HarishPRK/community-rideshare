@@ -180,9 +180,12 @@ export const testCors = async () => {
   }
 };
 
-export default {
+// Assign the object to a variable before exporting
+const apiDebugger = {
   testApiRequest,
   testAuthentication,
   testOfferRide,
   testCors
 };
+
+export default apiDebugger;
