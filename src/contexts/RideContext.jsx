@@ -527,6 +527,7 @@ export const RideProvider = ({ children }) => {
         // Call the real search API endpoint
         console.log('Attempting to call real search API endpoint');
         const response = await apiService.ride.searchRides(searchCriteria); // response is response.data from axios
+        console.log('>>> RAW API Search Response:', JSON.stringify(response, null, 2)); // Added detailed log
         console.log('Real API search response:', response);
 
         // Make response handling more flexible
@@ -558,6 +559,7 @@ export const RideProvider = ({ children }) => {
         }
       } catch (apiError) {
         // Log the API error but don't fail yet - we'll fall back to mock data
+        console.error('>>> API Search Error:', apiError); // Added detailed error log
         console.warn('Error using real search API:', apiError.message);
         console.warn('Status code:', apiError.statusCode);
         console.warn('Falling back to mock data for demo purposes');
